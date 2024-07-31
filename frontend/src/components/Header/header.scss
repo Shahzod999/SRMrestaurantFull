@@ -1,0 +1,28 @@
+header {
+  .headerWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 80px;
+
+    nav {
+      margin-left: 80px;
+      ul {
+        display: flex;
+        align-items: center;
+        gap: 5vw;
+        li {
+          a {
+            font-family: "Pacifico", cursive;
+          }
+          button {
+            border: 2px solid white;
+            padding: 10px 20px;
+            background-color: transparent;
+            backdrop-filter: blur(5px);
+          }
+        }
+      }
+    }
+  }
+}

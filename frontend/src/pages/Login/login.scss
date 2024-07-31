@@ -1,0 +1,77 @@
+.login {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    min-width: 50vw;
+    height: 50%;
+    background-color: rgba(255, 255, 255, 0.208);
+    border: 1px solid lightgrey;
+    padding: 3vw;
+    border-radius: 10px;
+    position: relative;
+    text-align: center;
+
+    .logTxt {
+      font-size: 25px;
+    }
+    .password {
+      position: relative;
+      span {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: black;
+        z-index: 999;
+        font-size: 25px;
+        svg {
+          fill: black;
+        }
+      }
+    }
+    span,
+    button {
+      text-transform: uppercase;
+    }
+    input,
+    button {
+      width: 100%;
+      color: black;
+      border-radius: 10px;
+      padding: 15px;
+      font-size: 20px;
+    }
+    p {
+      span {
+        cursor: pointer;
+        color: red;
+        &:hover,
+        &:active {
+          color: rgba(255, 0, 0, 0.7);
+          transform: scale(1.5);
+        }
+      }
+    }
+    .closeForm {
+      top: 0;
+      right: 0;
+      position: absolute;
+      background-color: black;
+      padding: 15px;
+      border-radius: 0 10px;
+      transition: 0.3s ease;
+      &:hover {
+        transform: scale(1.1);
+      }
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+}

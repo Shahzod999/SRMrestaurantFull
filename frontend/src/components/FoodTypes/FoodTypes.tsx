@@ -1,6 +1,14 @@
 import "./foodtypes.scss";
-const FoodTypes = () => {
-  return <div className="foodTypes">FoodTypes</div>;
+
+const FoodTypes = ({ typeFood }: { typeFood: any }) => {
+  return (
+    <div className="foodTypes">
+      <p>{typeFood}</p>
+      <p>{typeFood}</p>
+      <p>{typeFood}</p>
+      <p>{typeFood}</p>
+    </div>
+  );
 };
 
 export default FoodTypes;

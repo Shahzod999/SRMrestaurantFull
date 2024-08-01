@@ -75,6 +75,8 @@ app.post("/create-accaunt", async (req, res) => {
     user,
     accessToken,
     message: "Registration Successful",
+    email,
+    fullname,
   });
   // Возвращает ответ с данными пользователя, токеном и сообщением об успешной регистрации.
 });
@@ -97,6 +99,7 @@ app.post("/login", async (req, res) => {
   }
 
   const userInfo = await User.findOne({ email: email });
+  const { createdOn, fullname, _id } = userInfo;
 
   if (!userInfo) {
     return res.status(400).json({ message: "User not found" });
@@ -113,6 +116,9 @@ app.post("/login", async (req, res) => {
       message: "login successful",
       email,
       accessToken,
+      createdOn,
+      fullname,
+      _id,
     });
   } else {
     return res.status(400).json({

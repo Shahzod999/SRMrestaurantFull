@@ -1,5 +1,5 @@
 import "./App.scss";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Menu from "./pages/Menu/Menu";
@@ -9,13 +9,17 @@ import Error from "./components/Error/Error";
 import { useState } from "react";
 import SideBarMenu from "./components/SideBar/SideBarMenu";
 import FoodTypes from "./components/FoodTypes/FoodTypes";
-
+import { useSelector } from "react-redux";
 import mainBack0 from "../public/mainBack0.jpg";
 import mainBack1 from "../public/mainBack1.jpg";
 import mainBack2 from "../public/mainBack2.jpg";
 import mainBack3 from "../public/mainBack3.jpg";
+import { selectedUserInfo } from "./features/userLoginSlice";
 
 const App = () => {
+  const userInfo = useSelector(selectedUserInfo);
+  console.log(userInfo, "2");
+
   const [back, setBack] = useState(0);
 
   const changeBack = () => {
@@ -29,19 +33,25 @@ const App = () => {
       <BrowserRouter>
         <SideBarMenu />
         <div className="blur">
-          <Header changeBack={changeBack} />
+          <Header changeBack={changeBack} userInfo={userInfo} />
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/menu" element={<Menu />} />
-
-            <Route path="/menu/goryach" element={<FoodTypes />} />
-            <Route path="/menu/desert" element={<FoodTypes />} />
-            <Route path="/menu/fastfood" element={<FoodTypes />} />
-            <Route path="/menu/drinks" element={<FoodTypes />} />
-
-            <Route path="/getOrder" element={<GetOrder />} />
-            <Route path="*" element={<Error />} />
+            {userInfo ? (
+              <>
+                <Route path="/" element={<Home />} />
+                <Route path="/menu" element={<Menu />} />
+                <Route path="/menu/goryach" element={<FoodTypes typeFood={"Горячая"} />} />
+                <Route path="/menu/desert" element={<FoodTypes typeFood={"Десерт"} />} />
+                <Route path="/menu/fastfood" element={<FoodTypes typeFood={"ФастФуд"} />} />
+                <Route path="/menu/drinks" element={<FoodTypes typeFood={"Напитки"} />} />
+                <Route path="/getOrder" element={<GetOrder />} />
+                <Route path="*" element={<Error />} />
+              </>
+            ) : (
+              <>
+                <Route path="/login" element={<Login />} />
+                <Route path="*" element={<Navigate to="/login" replace />} />
+              </>
+            )}
           </Routes>
         </div>
       </BrowserRouter>

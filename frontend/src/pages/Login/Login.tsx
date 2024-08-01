@@ -6,8 +6,11 @@ import { IoEyeSharp } from "react-icons/io5";
 import { BsFillEyeSlashFill } from "react-icons/bs";
 import { validateEmail } from "../../utils/helpers";
 import axiosInstance from "../../utils/axiosInstance";
+import { useDispatch } from "react-redux";
+import { handleTokenUserLogin } from "../../features/userLoginSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [register, setRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -24,6 +27,7 @@ const Login = () => {
   const handlePasswordShow = () => {
     setShowPassword(!showPassword);
   };
+
   //LOGIN
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,7 +51,8 @@ const Login = () => {
       });
 
       if (response.data && response.data.accessToken) {
-        localStorage.setItem("token", response.data.accessToken);
+        localStorage.setItem("token", JSON.stringify(response.data));
+        dispatch(handleTokenUserLogin(response.data));
         navigate("/");
       }
     } catch (error: any) {
@@ -94,7 +99,8 @@ const Login = () => {
       }
 
       if (response.data && response.data.accessToken) {
-        localStorage.setItem("token", response.data.accessToken);
+        localStorage.setItem("token", JSON.stringify(response.data));
+        dispatch(handleTokenUserLogin(response.data));
         navigate("/dashboard");
       }
     } catch (error: any) {
@@ -107,11 +113,7 @@ const Login = () => {
     }
   };
   //
-  
-  
-  
-  
-  
+
   return (
     <div className="login">
       <form onSubmit={register ? handleSignUp : handleLogin}>

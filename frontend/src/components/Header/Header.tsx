@@ -1,8 +1,24 @@
 import "./header.scss";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { handleTokenUserLogOut, userInfo } from "../../features/userLoginSlice";
 
-const Header = ({ changeBack }: { changeBack: () => void }) => {
-  const status = false;
+interface HeaderProps {
+  changeBack: () => void;
+  // token: string;
+  userInfo: userInfo | null;
+}
+
+const Header: React.FC<HeaderProps> = ({ changeBack, userInfo }) => {
+  const dispatch = useDispatch();
+
+  const handleHeaderLogin = () => {
+    if (userInfo) {
+      return dispatch(handleTokenUserLogOut());
+    }
+    return;
+  };
+
   return (
     <header>
       <div className="container headerWrapper">
@@ -12,12 +28,11 @@ const Header = ({ changeBack }: { changeBack: () => void }) => {
               <Link to="/menu">Меню</Link>
             </li>
             <li>
-              <Link to="/getOrder">Принять Заказ</Link>
+              <Link to="/getOrder">Принятые Заказ</Link>
             </li>
+            <li>{userInfo ? userInfo.fullname : ""}</li>
             <li>
-              <Link to="/login">
-                <button>{status ? "LOGIN" : "SIGN-UP"}</button>
-              </Link>
+              <button onClick={handleHeaderLogin}>{userInfo ? "SIGN-OUT" : "LOGIN"}</button>
             </li>
           </ul>
         </nav>

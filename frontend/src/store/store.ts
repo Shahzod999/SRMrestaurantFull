@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userLoginSlice from "../features/userLoginSlice";
+import orderedFoodSlice from "../features/orderedFoodSlice";
 
 export const store = configureStore({
   reducer: {
-    token: userLoginSlice
+    token: userLoginSlice,
+    orderedFoods: orderedFoodSlice,
   }
 })
 

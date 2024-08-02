@@ -5,7 +5,9 @@ const express = require("express"); // Импортирует Express, кото�
 const cors = require("cors"); // Импортирует middleware для обработки CORS.
 const jwt = require("jsonwebtoken"); // Импортирует библиотеку для работы с JSON Web Tokens.
 const { authenticateToken } = require("./utilities"); //  Импортирует функцию authenticateToken из файла utilities.
-const User = require("./models/user.model"); // Импортирует модель пользователя для работы с MongoDB.
+const User = require("./models/user.model");
+const Food = require("./models/food.model");
+// Импортирует модель пользователя для работы с MongoDB.
 
 mongoose.connect(config.connetionString);
 // Подключение к базе данных MongoDB с использованием строки подключения, указанной в конфигурационном файле.
@@ -131,6 +133,78 @@ app.post("/login", async (req, res) => {
 //
 //
 //
+//Get User
+app.get("/get-user", authenticateToken, async (req, res) => {
+  const { user } = req.user;
+
+  const isUser = await User.findOne({ _id: user._id });
+
+  if (!isUser) {
+    return res.sendStatus(401);
+  }
+  return res.json({
+    user: {
+      fullName: isUser.fullname,
+      email: isUser.email,
+      _id: isUser._id,
+      createdOn: isUser.createdOn,
+    },
+    message: "",
+  });
+});
+//
+//
+//
+//
+// Add Food
+app.post("/add-food", authenticateToken, async (req, res) => {
+  const { name, price, desc } = req.body;
+  const { user } = req.user;
+
+  if (!name) {
+    return res.status(400).json({ error: true, message: "name is required" });
+  }
+
+  if (!price) {
+    return res.status(400).json({ error: true, message: "price is required" });
+  }
+  if (!desc) {
+    return res.status(400).json({ error: true, message: "desc is required" });
+  }
+
+  try {
+    // Проверка на наличие блюда с таким же именем и foodId
+    const existingFood = await Food.findOne({ name, foodId: user._id });
+    if (existingFood) {
+      return res.status(400).json({ error: true, message: "Food with this name already exists" });
+    }
+
+    const food = new Food({
+      name,
+      price,
+      desc,
+      foodId: user._id,
+    });
+
+    await food.save();
+
+    return res.json({
+      error: false,
+      message: "food added successfully",
+      food,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: true,
+      message: error,
+    });
+  }
+});
+//
+//
+//
+//
+
 
 app.listen(8000);
 // Запускает сервер и заставляет его слушать входящие запросы на порту 8000.

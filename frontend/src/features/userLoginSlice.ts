@@ -1,23 +1,35 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store/store'
+import axios from 'axios';
 
-export interface userInfo {
-  error: boolean
-  message: string
-  email: string
-  accessToken: string
-  createdOn: string
-  fullname: string
-  _id: string
-}
+const BASE_URL = 'http://localhost:8000';
 
+export const fetchUser = createAsyncThunk(
+  'token/fetchUser',
+  async (_, { getState }) => {
+    const state = getState() as RootState;
+    const token = state.token.userToken;
+    const response = await axios.get(`${BASE_URL}/get-user`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response.data;
+  }
+);
 
 export interface UserLoginState {
-  userInfo: userInfo | null;
+  userToken: string | null;
+  loading: boolean;
+  error: boolean
+  info: any
 }
 
 const initialState: UserLoginState = {
-  userInfo: localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token") as string) : null,
+  userToken: localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token") as string) : null,
+  loading: false,
+  error: false,
+  info: ""
 }
 
 export const userLoginSlice = createSlice({
@@ -25,18 +37,34 @@ export const userLoginSlice = createSlice({
   initialState,
   reducers: {
     handleTokenUserLogin: (state, action) => {
-      state.userInfo = action.payload;
-      console.log(action.payload, '444');
+      state.userToken = action.payload;
     },
     handleTokenUserLogOut: (state) => {
-      state.userInfo = null;
+      state.userToken = null;
       localStorage.removeItem("token");
     }
-  }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUser.pending, (state) => {
+        state.loading = true;
+        console.log('loading');
+      })
+      .addCase(fetchUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.info = action.payload;
+      })
+      .addCase(fetchUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+        console.log(action.error.message);
+      });
+  },
 })
 
 
-export const selectedUserInfo = (state: RootState) => state.token.userInfo
+export const selectedUserToken = (state: RootState) => state.token.userToken
+export const selectedUserGetUser = (state: RootState) => state.token.info.user
 
 export const { handleTokenUserLogin, handleTokenUserLogOut } = userLoginSlice.actions
 export default userLoginSlice.reducer

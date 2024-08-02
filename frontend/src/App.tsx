@@ -6,25 +6,28 @@ import Menu from "./pages/Menu/Menu";
 import GetOrder from "./pages/GetOrder/GetOrder";
 import Header from "./components/Header/Header";
 import Error from "./components/Error/Error";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SideBarMenu from "./components/SideBar/SideBarMenu";
 import FoodTypes from "./components/FoodTypes/FoodTypes";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import mainBack0 from "../public/mainBack0.jpg";
 import mainBack1 from "../public/mainBack1.jpg";
 import mainBack2 from "../public/mainBack2.jpg";
 import mainBack3 from "../public/mainBack3.jpg";
-import { selectedUserInfo } from "./features/userLoginSlice";
+import { fetchUser, selectedUserToken } from "./features/userLoginSlice";
 
 const App = () => {
-  const userInfo = useSelector(selectedUserInfo);
-  console.log(userInfo, "2");
-
+  const dispatch = useDispatch();
   const [back, setBack] = useState(0);
+  const userToken = useSelector(selectedUserToken);
 
   const changeBack = () => {
     setBack((prev) => (prev == 3 ? 0 : prev + 1));
   };
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [userToken]);
 
   const backgrounds = [mainBack0, mainBack1, mainBack2, mainBack3];
 
@@ -33,9 +36,9 @@ const App = () => {
       <BrowserRouter>
         <SideBarMenu />
         <div className="blur">
-          <Header changeBack={changeBack} userInfo={userInfo} />
+          <Header changeBack={changeBack} userToken={userToken} />
           <Routes>
-            {userInfo ? (
+            {userToken ? (
               <>
                 <Route path="/" element={<Home />} />
                 <Route path="/menu" element={<Menu />} />

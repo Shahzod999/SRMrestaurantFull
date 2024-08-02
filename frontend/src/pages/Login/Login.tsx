@@ -51,8 +51,8 @@ const Login = () => {
       });
 
       if (response.data && response.data.accessToken) {
-        localStorage.setItem("token", JSON.stringify(response.data));
-        dispatch(handleTokenUserLogin(response.data));
+        localStorage.setItem("token", JSON.stringify(response.data.accessToken));
+        dispatch(handleTokenUserLogin(response.data.accessToken));
         navigate("/");
       }
     } catch (error: any) {
@@ -99,9 +99,9 @@ const Login = () => {
       }
 
       if (response.data && response.data.accessToken) {
-        localStorage.setItem("token", JSON.stringify(response.data));
-        dispatch(handleTokenUserLogin(response.data));
-        navigate("/dashboard");
+        localStorage.setItem("token", JSON.stringify(response.data.accessToken));
+        dispatch(handleTokenUserLogin(response.data.accessToken));
+        navigate("/");
       }
     } catch (error: any) {
       //handle login error

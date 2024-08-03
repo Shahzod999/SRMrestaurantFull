@@ -6,11 +6,17 @@ header {
     margin-bottom: 80px;
 
     nav {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      row-gap: 50px;
       margin-left: 80px;
+      width: 100%;
       ul {
         display: flex;
         align-items: center;
         gap: 5vw;
+        flex-wrap: wrap;
         li {
           a {
             font-family: "Pacifico", cursive;

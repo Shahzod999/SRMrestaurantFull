@@ -42,6 +42,7 @@ const App = () => {
               <>
                 <Route path="/" element={<Home />} />
                 <Route path="/menu" element={<Menu />} />
+                <Route path="/edit" element={<Menu />} />
                 <Route path="/menu/goryach" element={<FoodTypes typeFood={"Горячая"} />} />
                 <Route path="/menu/desert" element={<FoodTypes typeFood={"Десерт"} />} />
                 <Route path="/menu/fastfood" element={<FoodTypes typeFood={"ФастФуд"} />} />

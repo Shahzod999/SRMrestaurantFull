@@ -13,12 +13,17 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [register, setRegister] = useState(false);
+  const [boss, setBoss] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const setBossStatus = (e) => {
+    e.target.value == "SHOH" ? setBoss(true) : setBoss(false);
+  };
 
   const handleRegister = () => {
     setRegister(!register);
@@ -51,7 +56,7 @@ const Login = () => {
       });
 
       if (response.data && response.data.accessToken) {
-        localStorage.setItem("token", JSON.stringify(response.data.accessToken));
+        localStorage.setItem("token", response.data.accessToken);
         dispatch(handleTokenUserLogin(response.data.accessToken));
         navigate("/");
       }
@@ -90,6 +95,7 @@ const Login = () => {
         fullname: fullname,
         email: email,
         password: password,
+        userBoss: boss,
       });
 
       //handle successful registration response
@@ -99,7 +105,7 @@ const Login = () => {
       }
 
       if (response.data && response.data.accessToken) {
-        localStorage.setItem("token", JSON.stringify(response.data.accessToken));
+        localStorage.setItem("token", response.data.accessToken);
         dispatch(handleTokenUserLogin(response.data.accessToken));
         navigate("/");
       }
@@ -121,7 +127,12 @@ const Login = () => {
           <ImCross />
         </Link>
         <span className="logTxt">Login</span>
-        {register && <input type="text" required placeholder="isim" value={fullname} onChange={(e) => setFullname(e.target.value)} />}
+        {register && (
+          <>
+            <input type="text" required placeholder="isim" value={fullname} onChange={(e) => setFullname(e.target.value)} />
+            <input type="text" placeholder="Boss?" onChange={(e) => setBossStatus(e)} />
+          </>
+        )}
         <input type="email" required placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <div className="password">
           <input

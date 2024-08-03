@@ -7,7 +7,7 @@ const menuSchema = new Schema({
   price: { type: String, required: true },
   desc: { type: String, required: true },
   amount: { type: Boolean, required: false },
-  foodId: { type: String, required: true },
+  userId: { type: String, required: true },
   createdOn: { type: Date, default: new Date().getTime() },
 });
 

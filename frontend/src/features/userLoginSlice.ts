@@ -9,6 +9,7 @@ export const fetchUser = createAsyncThunk(
   async (_, { getState }) => {
     const state = getState() as RootState;
     const token = state.token.userToken;
+
     const response = await axios.get(`${BASE_URL}/get-user`, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -26,7 +27,7 @@ export interface UserLoginState {
 }
 
 const initialState: UserLoginState = {
-  userToken: localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token") as string) : null,
+  userToken: localStorage.getItem("token") ? localStorage.getItem("token") : null,
   loading: false,
   error: false,
   info: ""

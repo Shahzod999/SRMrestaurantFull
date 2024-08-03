@@ -36,8 +36,10 @@ app.get("/", (req, res) => {
 
 //Create Accaunt
 app.post("/create-accaunt", async (req, res) => {
-  const { fullname, email, password } = req.body;
+  const { fullname, email, password, boss } = req.body;
   // Извлекает fullname, email и password из тела запроса.
+
+  console.log("Request body:", req.body);
 
   if (!fullname) {
     return res.status(400).json({ error: true, message: "Full name is required" });
@@ -63,6 +65,7 @@ app.post("/create-accaunt", async (req, res) => {
     fullname,
     email,
     password,
+    userBoss: boss === true,
   });
   await user.save();
   // Создает нового пользователя с указанными данными и сохраняет его в базе данных.
@@ -79,6 +82,7 @@ app.post("/create-accaunt", async (req, res) => {
     message: "Registration Successful",
     email,
     fullname,
+    userBoss: user.userBoss,
   });
   // Возвращает ответ с данными пользователя, токеном и сообщением об успешной регистрации.
 });
@@ -136,6 +140,7 @@ app.post("/login", async (req, res) => {
 //Get User
 app.get("/get-user", authenticateToken, async (req, res) => {
   const { user } = req.user;
+  console.log(user, "asd");
 
   const isUser = await User.findOne({ _id: user._id });
 
@@ -148,6 +153,7 @@ app.get("/get-user", authenticateToken, async (req, res) => {
       email: isUser.email,
       _id: isUser._id,
       createdOn: isUser.createdOn,
+      userBoss: isUser.boss,
     },
     message: "",
   });
@@ -173,8 +179,8 @@ app.post("/add-food", authenticateToken, async (req, res) => {
   }
 
   try {
-    // Проверка на наличие блюда с таким же именем и foodId
-    const existingFood = await Food.findOne({ name, foodId: user._id });
+    // Проверка на наличие блюда с таким же именем и userId
+    const existingFood = await Food.findOne({ name, userId: user._id });
     if (existingFood) {
       return res.status(400).json({ error: true, message: "Food with this name already exists" });
     }
@@ -183,7 +189,7 @@ app.post("/add-food", authenticateToken, async (req, res) => {
       name,
       price,
       desc,
-      foodId: user._id,
+      userId: user._id,
     });
 
     await food.save();
@@ -204,8 +210,54 @@ app.post("/add-food", authenticateToken, async (req, res) => {
 //
 //
 //
+// Get All Notes
+app.get("/get-all-foods", authenticateToken, async (req, res) => {
+  const { user } = req.user;
 
+  try {
+    const foods = await Food.find();
 
+    return res.json({
+      error: false,
+      count: foods.length,
+      foods,
+      message: "All foods retrived successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: true,
+      message: "internal Server Error",
+    });
+  }
+});
+
+// Delete Food
+app.delete("/delete-food/:foodId", authenticateToken, async (req, res) => {
+  const foodId = req.params.foodId;
+  const { user } = req.user;
+  console.log(foodId);
+  console.log(user._id);
+
+  try {
+    const food = await Food.findOne({ _id: foodId, userId: user._id });
+
+    if (!food) {
+      return res.status(404).json({ error: true, message: "Food not found" });
+    }
+    await Food.deleteOne({ _id: foodId, userId: user._id });
+
+    return res.json({
+      error: false,
+      message: "Food deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({ error: true, message: "Invalid server error" });
+  }
+});
+//
+//
+//
+//
 app.listen(8000);
 // Запускает сервер и заставляет его слушать входящие запросы на порту 8000.
 

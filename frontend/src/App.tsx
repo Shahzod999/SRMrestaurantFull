@@ -14,12 +14,14 @@ import mainBack0 from "../public/mainBack0.jpg";
 import mainBack1 from "../public/mainBack1.jpg";
 import mainBack2 from "../public/mainBack2.jpg";
 import mainBack3 from "../public/mainBack3.jpg";
-import { fetchUser, selectedUserToken } from "./features/userLoginSlice";
+import { fetchUser, selectedUserGetUser, selectedUserToken } from "./features/userLoginSlice";
 
 const App = () => {
   const dispatch = useDispatch();
   const [back, setBack] = useState(0);
   const userToken = useSelector(selectedUserToken);
+  const userInfo = useSelector(selectedUserGetUser);
+  console.log(userInfo, "sdsds");
 
   const changeBack = () => {
     setBack((prev) => (prev == 3 ? 0 : prev + 1));
@@ -36,13 +38,17 @@ const App = () => {
       <BrowserRouter>
         <SideBarMenu />
         <div className="blur">
-          <Header changeBack={changeBack} userToken={userToken} />
+          <Header changeBack={changeBack} userToken={userToken} userInfo={userInfo} />
           <Routes>
             {userToken ? (
               <>
-                <Route path="/" element={<Home />} />
+                {userInfo?.userBoss && (
+                  <>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/edit" element={<Menu />} />
+                  </>
+                )}
                 <Route path="/menu" element={<Menu />} />
-                <Route path="/edit" element={<Menu />} />
                 <Route path="/menu/goryach" element={<FoodTypes typeFood={"Горячая"} />} />
                 <Route path="/menu/desert" element={<FoodTypes typeFood={"Десерт"} />} />
                 <Route path="/menu/fastfood" element={<FoodTypes typeFood={"ФастФуд"} />} />

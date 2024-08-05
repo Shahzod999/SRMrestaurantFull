@@ -1,16 +1,17 @@
 import "./header.scss";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { handleTokenUserLogOut, selectedUserGetUser } from "../../features/userLoginSlice";
+import { useDispatch } from "react-redux";
+import { User, handleTokenUserLogOut } from "../../features/userLoginSlice";
 
 interface HeaderProps {
   changeBack: () => void;
   // token: string;
   userToken: string | null;
+  userInfo: User | undefined;
 }
 
-const Header: React.FC<HeaderProps> = ({ changeBack, userToken }) => {
-  const getUser = useSelector(selectedUserGetUser);
+const Header: React.FC<HeaderProps> = ({ changeBack, userToken, userInfo }) => {
+  // const getUser = useSelector(selectedUserGetUser);
 
   const dispatch = useDispatch();
 
@@ -35,20 +36,17 @@ const Header: React.FC<HeaderProps> = ({ changeBack, userToken }) => {
           </ul>
 
           <ul>
-            
             <li>
               <Link to="/menu">Меню</Link>
             </li>
             <li>
               <Link to="/getOrder">Принятые Заказ</Link>
             </li>
-            
 
-            <li>{getUser ? getUser.fullName : ""}</li>
+            <li>{userInfo?.fullName}</li>
             <li>
               <button onClick={handleHeaderLogin}>{userToken ? "SIGN-OUT" : "LOGIN"}</button>
             </li>
-            
           </ul>
         </nav>
       </div>

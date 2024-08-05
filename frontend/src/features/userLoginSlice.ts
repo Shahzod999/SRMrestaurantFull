@@ -2,6 +2,24 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store/store'
 import axios from 'axios';
 
+
+export interface UserInfo {
+  user: User
+  message: string
+}
+
+export interface User {
+  fullName: string
+  email: string
+  _id: string
+  createdOn: string
+  userBoss: boolean
+}
+
+
+
+
+
 const BASE_URL = 'http://localhost:8000';
 
 export const fetchUser = createAsyncThunk(
@@ -23,14 +41,14 @@ export interface UserLoginState {
   userToken: string | null;
   loading: boolean;
   error: boolean
-  info: any
+  info: UserInfo | null
 }
 
 const initialState: UserLoginState = {
   userToken: localStorage.getItem("token") ? localStorage.getItem("token") : null,
   loading: false,
   error: false,
-  info: ""
+  info: null
 }
 
 export const userLoginSlice = createSlice({
@@ -42,6 +60,7 @@ export const userLoginSlice = createSlice({
     },
     handleTokenUserLogOut: (state) => {
       state.userToken = null;
+      state.info = null
       localStorage.removeItem("token");
     }
   },
@@ -65,7 +84,7 @@ export const userLoginSlice = createSlice({
 
 
 export const selectedUserToken = (state: RootState) => state.token.userToken
-export const selectedUserGetUser = (state: RootState) => state.token.info.user
+export const selectedUserGetUser = (state: RootState) => state.token.info?.user
 
 export const { handleTokenUserLogin, handleTokenUserLogOut } = userLoginSlice.actions
 export default userLoginSlice.reducer

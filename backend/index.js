@@ -36,10 +36,8 @@ app.get("/", (req, res) => {
 
 //Create Accaunt
 app.post("/create-accaunt", async (req, res) => {
-  const { fullname, email, password, boss } = req.body;
+  const { fullname, email, password, userBoss } = req.body;
   // Извлекает fullname, email и password из тела запроса.
-
-  console.log("Request body:", req.body);
 
   if (!fullname) {
     return res.status(400).json({ error: true, message: "Full name is required" });
@@ -65,7 +63,7 @@ app.post("/create-accaunt", async (req, res) => {
     fullname,
     email,
     password,
-    userBoss: boss === true,
+    userBoss,
   });
   await user.save();
   // Создает нового пользователя с указанными данными и сохраняет его в базе данных.
@@ -82,7 +80,7 @@ app.post("/create-accaunt", async (req, res) => {
     message: "Registration Successful",
     email,
     fullname,
-    userBoss: user.userBoss,
+    userBoss,
   });
   // Возвращает ответ с данными пользователя, токеном и сообщением об успешной регистрации.
 });
@@ -105,7 +103,7 @@ app.post("/login", async (req, res) => {
   }
 
   const userInfo = await User.findOne({ email: email });
-  const { createdOn, fullname, _id } = userInfo;
+  const { createdOn, fullname, _id, userBoss } = userInfo;
 
   if (!userInfo) {
     return res.status(400).json({ message: "User not found" });
@@ -125,6 +123,7 @@ app.post("/login", async (req, res) => {
       createdOn,
       fullname,
       _id,
+      userBoss,
     });
   } else {
     return res.status(400).json({
@@ -153,7 +152,7 @@ app.get("/get-user", authenticateToken, async (req, res) => {
       email: isUser.email,
       _id: isUser._id,
       createdOn: isUser.createdOn,
-      userBoss: isUser.boss,
+      userBoss: isUser.userBoss,
     },
     message: "",
   });
@@ -258,6 +257,52 @@ app.delete("/delete-food/:foodId", authenticateToken, async (req, res) => {
 //
 //
 //
+//Edit Note
+app.put("/edit-food/:id", authenticateToken, async (req, res) => {
+  const foodId = req.params.id;
+  const { name, price, desc } = req.body;
+  const { user } = req.user;
+
+  if (!name && !price && !desc) {
+    return res.status(400).json({ error: true, message: "No Changes provided" });
+  }
+
+  try {
+    const food = await Food.findOne({ _id: foodId, userId: user._id });
+
+    if (!food) {
+      return res.status(404).json({ error: true, message: "Food not found" });
+    }
+
+    if (name) {
+      food.name = name;
+    }
+    if (price) {
+      food.price = price;
+    }
+    if (desc) {
+      food.desc = desc;
+    }
+
+    await food.save();
+
+    return res.json({
+      error: false,
+      food,
+      message: "Note updated Successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: true,
+      message: "Internal Server Error",
+    });
+  }
+});
+//
+//
+//
+//
+
 app.listen(8000);
 // Запускает сервер и заставляет его слушать входящие запросы на порту 8000.
 

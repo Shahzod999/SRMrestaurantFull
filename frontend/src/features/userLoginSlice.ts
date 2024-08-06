@@ -45,7 +45,7 @@ export interface UserLoginState {
 }
 
 const initialState: UserLoginState = {
-  userToken: localStorage.getItem("token") ? localStorage.getItem("token") : null,
+  userToken: localStorage.getItem("token") || null,
   loading: false,
   error: false,
   info: null

@@ -1,9 +1,71 @@
+header {
+  @media print {
+    display: none;
+  }
+}
+
+.sideBarMenu {
+  @media print {
+    display: none;
+  }
+}
+
 .getOrder {
   &__holder {
+    @media print {
+      display: none;
+    }
     display: flex;
     flex-wrap: wrap;
     column-gap: 50px;
     row-gap: 25px;
     justify-content: center;
+  }
+
+  &__button {
+    @media print {
+      display: none;
+    }
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    .totallOrederAll {
+      width: 80%;
+      height: 80px;
+      background-color: teal;
+      border-radius: 10px;
+      font-size: 25px;
+      font-weight: 900;
+    }
+  }
+
+  .printable-receipt {
+    display: none;
+
+    @media print {
+      display: block;
+      font-family: monospace;
+      font-size: 12px;
+      margin: 0; /* Adjusted to zero margin */
+      padding: 20px; /* Added padding to compensate for margin */
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin: 5px 0;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px dashed #000;
+      margin: 10px 0;
+    }
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }

@@ -21,7 +21,6 @@ const App = () => {
   const [back, setBack] = useState(0);
   const userToken = useSelector(selectedUserToken);
   const userInfo = useSelector(selectedUserGetUser);
-  console.log(userInfo, "sdsds");
 
   const changeBack = () => {
     setBack((prev) => (prev == 3 ? 0 : prev + 1));

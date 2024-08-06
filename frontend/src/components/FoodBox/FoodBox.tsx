@@ -83,6 +83,7 @@ const FoodBox = ({ food }) => {
             <button className="decrement" onClick={handleFoodDecrement}>
               -
             </button>
+
             <span className="number">{amount}</span>
             <button className="increment" onClick={handleFoodIncrement}>
               +

@@ -1,23 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from "../store/store";
-import axios from "axios";
+// import axios from "axios";
+import axiosInstance from '../utils/axiosInstance';
 
 const BASE_URL = 'http://localhost:8000';
-
 
 export const fetchAllFoods = createAsyncThunk(
   "allFoods/fetchAllFoods",
   async () => {
     const token = localStorage.getItem("token")
     console.log(token, 'asdas');
-    const response = await axios.get(`${BASE_URL}/get-all-foods`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+    const response = await axiosInstance.get(`${BASE_URL}/get-all-foods`)
     return response.data
   }
 )
+
 
 export interface AllFoodsState {
   products: any;

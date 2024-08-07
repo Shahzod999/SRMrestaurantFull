@@ -3,14 +3,12 @@ import { RootState } from "../store/store";
 // import axios from "axios";
 import axiosInstance from '../utils/axiosInstance';
 
-const BASE_URL = 'http://localhost:8000';
-
 export const fetchAllFoods = createAsyncThunk(
   "allFoods/fetchAllFoods",
   async () => {
     const token = localStorage.getItem("token")
     console.log(token, 'asdas');
-    const response = await axiosInstance.get(`${BASE_URL}/get-all-foods`)
+    const response = await axiosInstance.get(`${import.meta.env.VITE_BASE_URL}/get-all-foods`)
     return response.data
   }
 )

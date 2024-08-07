@@ -10,7 +10,6 @@ import AddNewFoodEditForm from "../AddnewFoodEditForm/AddNewFoodEditForm";
 import axiosInstance from "../../utils/axiosInstance";
 
 const FoodBox = ({ food }) => {
-  const BASE_URL = "http://localhost:8000";
   const { pathname } = useLocation();
   const dispatch = useDispatch();
 
@@ -40,7 +39,7 @@ const FoodBox = ({ food }) => {
 
   const handleDeleteFood = async () => {
     try {
-      const response = await axiosInstance.delete(`${BASE_URL}/delete-food/${food._id}`);
+      const response = await axiosInstance.delete(`${import.meta.env.VITE_BASE_URL}/delete-food/${food._id}`);
       console.log(response.data, "delete");
       dispatch(fetchAllFoods());
     } catch (error) {

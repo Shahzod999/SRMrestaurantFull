@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store/store'
-import axios from 'axios';
 import axiosInstance from '../utils/axiosInstance';
 
 
@@ -20,13 +19,10 @@ export interface User {
 
 
 
-
-const BASE_URL = 'http://localhost:8000';
-
 export const fetchUser = createAsyncThunk(
   'token/fetchUser',
   async () => {
-    const response = await axiosInstance.get(`${BASE_URL}/get-user`);
+    const response = await axiosInstance.get(`${import.meta.env.VITE_BASE_URL}/get-user`);
     return response.data;
   }
 );

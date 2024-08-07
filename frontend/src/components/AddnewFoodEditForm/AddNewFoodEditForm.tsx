@@ -2,13 +2,23 @@ import axiosInstance from "../../utils/axiosInstance";
 import { useState } from "react";
 import "./addNewFoodEditForm.scss";
 
-const AddNewFoodEditForm = ({ mode, initialValues = {}, setError, onSubmit }) => {
-  
-  const [name, setName] = useState(initialValues.name || "");
-  const [price, setPrice] = useState(initialValues.price || "");
-  const [desc, setDesc] = useState(initialValues.desc || "");
+interface AddNewFoodEditFormProps {
+  mode: "add" | "edit";
+  initialValues?: {
+    name?: string;
+    price?: string;
+    desc?: string;
+  };
+  setError: (error: string) => void;
+  onSubmit: (data: { name: string; price: string; desc: string }) => void;
+}
 
-  const handleSubmit = async (e) => {
+const AddNewFoodEditForm: React.FC<AddNewFoodEditFormProps> = ({ mode, initialValues = {}, setError, onSubmit }) => {
+  const [name, setName] = useState<string>(initialValues.name || "");
+  const [price, setPrice] = useState<string>(initialValues.price || "");
+  const [desc, setDesc] = useState<string>(initialValues.desc || "");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       if (mode === "add") {
@@ -23,7 +33,7 @@ const AddNewFoodEditForm = ({ mode, initialValues = {}, setError, onSubmit }) =>
       } else {
         onSubmit({ name, price, desc });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log("Error response:", error.response);
       if (error.response && error.response.data && error.response.data.message) {
         setError(error.response.data.message);
@@ -32,11 +42,7 @@ const AddNewFoodEditForm = ({ mode, initialValues = {}, setError, onSubmit }) =>
       }
     }
   };
-  
-  
 
-  
-  
   return (
     <form onSubmit={handleSubmit}>
       <input type="text" value={name} placeholder="name" onChange={(e) => setName(e.target.value)} required />

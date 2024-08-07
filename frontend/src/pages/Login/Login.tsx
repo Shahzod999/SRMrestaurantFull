@@ -113,6 +113,7 @@ const Login = () => {
       //handle login error
       if (error.response && error.response.data && error.response.data.message) {
         setError(error.response.data.message);
+        console.log(error,'assa');
       } else {
         setError("An unexpected error occurred. Please try again");
       }

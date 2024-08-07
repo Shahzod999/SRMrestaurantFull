@@ -1,11 +1,14 @@
 import { removeOrderFoodList, selectedOrderedFoods } from "../../features/orderedFoodSlice";
-import { useSelector, useDispatch } from "react-redux";
 import FoodBox from "../../components/FoodBox/FoodBox";
 import "./getOrder.scss";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+
+
+
 
 const GetOrder = () => {
-  const dispatch = useDispatch();
-  let orderedFoods = useSelector(selectedOrderedFoods);
+  const dispatch = useAppDispatch();
+  let orderedFoods = useAppSelector(selectedOrderedFoods);
 
   console.log(orderedFoods, "all");
 

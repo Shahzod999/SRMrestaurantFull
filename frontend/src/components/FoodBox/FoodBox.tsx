@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./foodBox.scss";
-import { useDispatch } from "react-redux";
 import { addOrderToFoodState } from "../../features/orderedFoodSlice";
 import { MdDeleteForever } from "react-icons/md";
 import { useLocation } from "react-router-dom";
@@ -8,14 +7,27 @@ import { fetchAllFoods } from "../../features/getAllFoodsSlice";
 import { GrEdit } from "react-icons/gr";
 import AddNewFoodEditForm from "../AddnewFoodEditForm/AddNewFoodEditForm";
 import axiosInstance from "../../utils/axiosInstance";
+import { useAppDispatch } from "../../hooks/hooks";
 
-const FoodBox = ({ food }) => {
+interface Food {
+  _id: string;
+  name: string;
+  price: string;
+  desc: string;
+  amount?: number;
+  stolik?: number;
+}
+
+interface FoodBoxProps {
+  food: Food;
+}
+const FoodBox: React.FC<FoodBoxProps> = ({ food }) => {
   const { pathname } = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const [amount, setFoodAmount] = useState(food.amount ? food.amount : 0);
-  const [stolik, setStolikAmount] = useState(food.stolik ? food.stolik : 0);
-  const [edit, setEdit] = useState(false);
+  const [amount, setFoodAmount] = useState<number>(food.amount ? food.amount : 0);
+  const [stolik, setStolikAmount] = useState<number>(food.stolik ? food.stolik : 0);
+  const [edit, setEdit] = useState<boolean>(false);
 
   const handleFoodDecrement = () => {
     setFoodAmount((prevAmount) => Math.max(prevAmount - 1, 0));
@@ -47,7 +59,7 @@ const FoodBox = ({ food }) => {
     }
   };
 
-  const handleEditFood = async (data) => {
+  const handleEditFood = async (data: { name: string; price: string; desc: string }) => {
     const { name, price, desc } = data;
     try {
       const response = await axiosInstance.put("/edit-food/" + food._id, {

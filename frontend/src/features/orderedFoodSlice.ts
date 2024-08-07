@@ -29,7 +29,6 @@ export const orderedFoodSlice = createSlice({
         state.orderedFoods[index] = {
           ...state.orderedFoods[index],
           ...action.payload,
-          // amount: state.orderedFoods[index].amount + action.payload.amount,
         };
       } else if (action.payload.amount > 0) {
         state.orderedFoods.push(action.payload);

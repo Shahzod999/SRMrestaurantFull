@@ -3,6 +3,6 @@ export interface Food {
   name: string;
   price: number;
   desc: string;
-  amount: number;
+  amount?: number;
   stolik?: string;
 }

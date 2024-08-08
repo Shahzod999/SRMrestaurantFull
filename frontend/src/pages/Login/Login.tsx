@@ -12,17 +12,17 @@ import { handleTokenUserLogin } from "../../features/userLoginSlice";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [register, setRegister] = useState(false);
-  const [boss, setBoss] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [register, setRegister] = useState<boolean>(false);
+  const [boss, setBoss] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [fullname, setFullname] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
-  const setBossStatus = (e) => {
-    e.target.value == "SHOH" ? setBoss(true) : setBoss(false);
+  const setBossStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBoss(e.target.value === "SHOH");
   };
 
   const handleRegister = () => {
@@ -97,10 +97,11 @@ const Login = () => {
         password: password,
         userBoss: boss,
       });
+      console.log(response);
 
       //handle successful registration response
-      if (response.data && response.data.error) {
-        setError(response.data.error);
+      if (response.data && response.data.error && response.data.message) {
+        setError(response.data.message);
         return;
       }
 
@@ -113,7 +114,6 @@ const Login = () => {
       //handle login error
       if (error.response && error.response.data && error.response.data.message) {
         setError(error.response.data.message);
-        console.log(error,'assa');
       } else {
         setError("An unexpected error occurred. Please try again");
       }

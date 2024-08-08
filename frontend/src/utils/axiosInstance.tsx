@@ -16,14 +16,10 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem("token");
-
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
       console.log(config.headers.Authorization, "Authorization Header");
-    } else {
-      console.log("No access token found");
     }
-
     return config;
   },
   (error) => {

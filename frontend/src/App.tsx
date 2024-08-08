@@ -9,18 +9,18 @@ import Error from "./components/Error/Error";
 import { useState, useEffect } from "react";
 import SideBarMenu from "./components/SideBar/SideBarMenu";
 import FoodTypes from "./components/FoodTypes/FoodTypes";
-import { useDispatch, useSelector } from "react-redux";
 import mainBack0 from "../public/mainBack0.jpg";
 import mainBack1 from "../public/mainBack1.jpg";
 import mainBack2 from "../public/mainBack2.jpg";
 import mainBack3 from "../public/mainBack3.jpg";
 import { fetchUser, selectedUserGetUser, selectedUserToken } from "./features/userLoginSlice";
+import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [back, setBack] = useState(0);
-  const userToken = useSelector(selectedUserToken);
-  const userInfo = useSelector(selectedUserGetUser);
+  const userToken = useAppSelector(selectedUserToken);
+  const userInfo = useAppSelector(selectedUserGetUser);
 
   const changeBack = () => {
     setBack((prev) => (prev == 3 ? 0 : prev + 1));

@@ -3,12 +3,18 @@ import FoodBox from "../../components/FoodBox/FoodBox";
 import "./getOrder.scss";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
-
-
+interface Food {
+  _id: string;
+  name: string;
+  price: string;
+  desc: string;
+  amount?: number;
+  stolik?: number;
+}
 
 const GetOrder = () => {
   const dispatch = useAppDispatch();
-  let orderedFoods = useAppSelector(selectedOrderedFoods);
+  let orderedFoods = useAppSelector(selectedOrderedFoods) as Food[];
 
   console.log(orderedFoods, "all");
 

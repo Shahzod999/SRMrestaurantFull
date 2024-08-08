@@ -67,6 +67,8 @@ const FoodBox: React.FC<FoodBoxProps> = ({ food }) => {
         price,
         desc,
       });
+      console.log(response);
+
       dispatch(fetchAllFoods());
       setEdit(false);
     } catch (error) {

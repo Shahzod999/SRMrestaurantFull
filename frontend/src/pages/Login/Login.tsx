@@ -145,15 +145,14 @@ const Login = () => {
         <span className="logTxt">Login</span>
         {register && (
           <>
-            <input type="text" required placeholder="isim" value={fullname} onChange={(e) => setFullname(e.target.value)} />
+            <input type="text" placeholder="isim" value={fullname} onChange={(e) => setFullname(e.target.value)} />
             <input type="text" placeholder="Boss?" onChange={(e) => setBossStatus(e)} />
           </>
         )}
-        <input type="email" required placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input type="email" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <div className="password">
           <input
             type={showPassword ? "text" : "password"}
-            required
             placeholder="password"
             value={password}
             onChange={(e) => {
@@ -163,7 +162,7 @@ const Login = () => {
           <span onClick={handlePasswordShow}>{showPassword ? <IoEyeSharp /> : <BsFillEyeSlashFill />}</span>
         </div>
 
-        <button type="submit" disabled={isSubmitting} className="enterToAccaunt">
+        <button type="submit" disabled={loading} className="enterToAccaunt">
           kirish
         </button>
 

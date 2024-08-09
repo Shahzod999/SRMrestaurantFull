@@ -103,10 +103,16 @@ app.post("/login", async (req, res) => {
   }
 
   const userInfo = await User.findOne({ email: email });
-  const { createdOn, fullname, _id, userBoss } = userInfo;
 
   if (!userInfo) {
     return res.status(400).json({ message: "User not found" });
+  }
+
+  if (userInfo.password !== password) {
+    return res.status(400).json({
+      error: true,
+      message: "Invalid email or password",
+    });
   }
 
   if (userInfo.email == email && userInfo.password == password) {
@@ -114,6 +120,8 @@ app.post("/login", async (req, res) => {
     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "36000m",
     });
+
+    const { createdOn, fullname, _id, userBoss } = userInfo;
 
     return res.json({
       error: false,
@@ -234,16 +242,16 @@ app.get("/get-all-foods", authenticateToken, async (req, res) => {
 app.delete("/delete-food/:foodId", authenticateToken, async (req, res) => {
   const foodId = req.params.foodId;
   const { user } = req.user;
-  console.log(foodId);
-  console.log(user._id);
-
+  if (!user.userBoss) {
+    return res.status(403).json({ error: true, message: "You do not have permission to delete this food." });
+  }
   try {
-    const food = await Food.findOne({ _id: foodId, userId: user._id });
+    const food = await Food.findOne({ _id: foodId });
 
     if (!food) {
       return res.status(404).json({ error: true, message: "Food not found" });
     }
-    await Food.deleteOne({ _id: foodId, userId: user._id });
+    await Food.deleteOne({ _id: foodId });
 
     return res.json({
       error: false,
@@ -266,9 +274,12 @@ app.put("/edit-food/:id", authenticateToken, async (req, res) => {
   if (!name && !price && !desc) {
     return res.status(400).json({ error: true, message: "No Changes provided" });
   }
+  if (!user.userBoss) {
+    return res.status(403).json({ error: true, message: "You do not have permission to delete this food." });
+  }
 
   try {
-    const food = await Food.findOne({ _id: foodId, userId: user._id });
+    const food = await Food.findOne({ _id: foodId });
 
     if (!food) {
       return res.status(404).json({ error: true, message: "Food not found" });

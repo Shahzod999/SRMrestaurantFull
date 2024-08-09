@@ -1,0 +1,59 @@
+.getOrder__holder {
+  @media print {
+    display: none;
+  }
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 50px;
+  row-gap: 25px;
+  justify-content: center;
+}
+
+.getOrder__button {
+  @media print {
+    display: none;
+  }
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  .totallOrederAll {
+    width: 80%;
+    height: 80px;
+    background-color: teal;
+    border-radius: 10px;
+    font-size: 25px;
+    font-weight: 900;
+  }
+}
+.getOrder {
+  margin-top: 25px;
+  .counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    overflow: hidden;
+
+    &.guestTable {
+      button {
+        background-color: #ff8000;
+      }
+      button:hover {
+        background-color: #b75c00;
+      }
+    }
+
+    button {
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .number {
+      padding: 0 20px;
+      font-size: 20px;
+    }
+  }
+}

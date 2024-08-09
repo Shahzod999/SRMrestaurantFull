@@ -4,5 +4,4 @@ export interface Food {
   price: number;
   desc: string;
   amount?: number;
-  stolik?: string;
 }

@@ -1,7 +1,7 @@
 import { removeOrderFoodList, selectedOrderedFoods } from "../../features/orderedFoodSlice";
-import FoodBox from "../../components/FoodBox/FoodBox";
 import "./getOrder.scss";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import MenuOrder from "../../components/Menu/MenuOrder";
 
 interface Food {
   _id: string;
@@ -9,14 +9,11 @@ interface Food {
   price: string;
   desc: string;
   amount?: number;
-  stolik?: number;
 }
 
 const GetOrder = () => {
   const dispatch = useAppDispatch();
-  let orderedFoods = useAppSelector(selectedOrderedFoods) as Food[];
-
-  console.log(orderedFoods, "all");
+  const orderedFoods = useAppSelector(selectedOrderedFoods) as Food[];
 
   const handleOrderFinish = () => {
     dispatch(removeOrderFoodList());
@@ -25,16 +22,7 @@ const GetOrder = () => {
 
   return (
     <div className="getOrder">
-      <div className="getOrder__holder">
-        {orderedFoods.map((food, index) => (
-          <FoodBox food={food} key={index} />
-        ))}
-      </div>
-      <div className="getOrder__button">
-        <button className="totallOrederAll" onClick={handleOrderFinish}>
-          ZAKAZ
-        </button>
-      </div>
+      <MenuOrder foods={orderedFoods} orderFuction={handleOrderFinish} text="ZAKAZ" />
 
       <div className="printable-receipt">
         <h2>Receipt</h2>
@@ -46,7 +34,6 @@ const GetOrder = () => {
             </p>
             <p>Amount: {food.amount}</p>
             <p>Price: {food.price}</p>
-            <p>Table: {food.stolik}</p>
             <p>Description: {food.desc}</p>
             <hr />
           </div>

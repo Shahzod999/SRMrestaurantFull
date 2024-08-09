@@ -15,38 +15,35 @@ interface Food {
   price: string;
   desc: string;
   amount?: number;
-  stolik?: number;
 }
 
 interface FoodBoxProps {
   food: Food;
+  onUpdateOrder: (food: Food) => void;
 }
-const FoodBox: React.FC<FoodBoxProps> = ({ food }) => {
+const FoodBox: React.FC<FoodBoxProps> = ({ food, onUpdateOrder }) => {
+  console.log(food);
+  
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
-
   const [amount, setFoodAmount] = useState<number>(food.amount ? food.amount : 0);
-  const [stolik, setStolikAmount] = useState<number>(food.stolik ? food.stolik : 0);
   const [edit, setEdit] = useState<boolean>(false);
 
-  const handleFoodDecrement = () => {
-    setFoodAmount((prevAmount) => Math.max(prevAmount - 1, 0));
-  };
-
   const handleFoodIncrement = () => {
-    setFoodAmount((prevAmount) => prevAmount + 1);
+    setFoodAmount((prevAmount) => {
+      const newAmount = prevAmount + 1;
+      // Отложить обновление заказа до следующего рендера
+      requestAnimationFrame(() => onUpdateOrder({ ...food, amount: newAmount }));
+      return newAmount;
+    });
   };
 
-  const handleStolikDecrement = () => {
-    setStolikAmount((prevAmount) => Math.max(prevAmount - 1, 0));
-  };
-
-  const handleStolikIncrement = () => {
-    setStolikAmount((prevAmount) => prevAmount + 1);
-  };
-
-  const sendOrder = () => {
-    dispatch(addOrderToFoodState({ ...food, amount, stolik }));
+  const handleFoodDecrement = () => {
+    setFoodAmount((prevAmount) => {
+      const newAmount = Math.max(prevAmount - 1, 0);
+      requestAnimationFrame(() => onUpdateOrder({ ...food, amount: newAmount }));
+      return newAmount;
+    });
   };
 
   const handleDeleteFood = async () => {
@@ -96,26 +93,11 @@ const FoodBox: React.FC<FoodBoxProps> = ({ food }) => {
             <button className="decrement" onClick={handleFoodDecrement}>
               -
             </button>
-
             <span className="number">{amount}</span>
             <button className="increment" onClick={handleFoodIncrement}>
               +
             </button>
           </div>
-
-          <div className="counter stolik">
-            <button className="decrement" onClick={handleStolikDecrement}>
-              -
-            </button>
-            <span className="number">{stolik}</span>
-            <button className="increment" onClick={handleStolikIncrement}>
-              +
-            </button>
-          </div>
-
-          <button className="order" onClick={sendOrder}>
-            Order
-          </button>
         </>
       )}
     </div>

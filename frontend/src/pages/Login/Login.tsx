@@ -81,8 +81,6 @@ const Login = () => {
       return;
     }
 
-    setIsSubmitting(true);
-
     if (!fullname) {
       setError("Please set name");
       return;
@@ -126,8 +124,6 @@ const Login = () => {
       } else {
         setError("An unexpected error occurred. Please try again");
       }
-    } finally {
-      setIsSubmitting(false);
     }
   };
   //

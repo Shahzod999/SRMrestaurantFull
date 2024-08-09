@@ -22,7 +22,6 @@ const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setBossStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBoss(e.target.value === "SHOH");
@@ -38,7 +37,6 @@ const Login = () => {
 
   //LOGIN
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    setIsSubmitting(true);
     e.preventDefault();
 
     if (!validateEmail(email)) {
@@ -71,8 +69,6 @@ const Login = () => {
       } else {
         setError("An unexpected error occurred. Please try again.");
       }
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

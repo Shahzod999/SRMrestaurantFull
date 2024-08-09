@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./foodBox.scss";
-import { addOrderToFoodState } from "../../features/orderedFoodSlice";
 import { MdDeleteForever } from "react-icons/md";
 import { useLocation } from "react-router-dom";
 import { fetchAllFoods } from "../../features/getAllFoodsSlice";
@@ -23,7 +22,7 @@ interface FoodBoxProps {
 }
 const FoodBox: React.FC<FoodBoxProps> = ({ food, onUpdateOrder }) => {
   console.log(food);
-  
+
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const [amount, setFoodAmount] = useState<number>(food.amount ? food.amount : 0);

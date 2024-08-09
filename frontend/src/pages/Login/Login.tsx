@@ -7,11 +7,13 @@ import { BsFillEyeSlashFill } from "react-icons/bs";
 import { validateEmail } from "../../utils/helpers";
 import axiosInstance from "../../utils/axiosInstance";
 import { useDispatch } from "react-redux";
-import { handleTokenUserLogin } from "../../features/userLoginSlice";
+import { handleTokenUserLogin, selectedLoadingToken } from "../../features/userLoginSlice";
+import { useAppSelector } from "../../hooks/hooks";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const loading = useAppSelector(selectedLoadingToken);
   const [register, setRegister] = useState<boolean>(false);
   const [boss, setBoss] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -20,6 +22,7 @@ const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setBossStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBoss(e.target.value === "SHOH");
@@ -35,6 +38,7 @@ const Login = () => {
 
   //LOGIN
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    setIsSubmitting(true);
     e.preventDefault();
 
     if (!validateEmail(email)) {
@@ -67,12 +71,21 @@ const Login = () => {
       } else {
         setError("An unexpected error occurred. Please try again.");
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   //SIGN-UP
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (loading) {
+      alert("Сервер еще загружается. Пожалуйста, подождите.");
+      return;
+    }
+
+    setIsSubmitting(true);
 
     if (!fullname) {
       setError("Please set name");
@@ -117,6 +130,8 @@ const Login = () => {
       } else {
         setError("An unexpected error occurred. Please try again");
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
   //
@@ -147,7 +162,10 @@ const Login = () => {
           />
           <span onClick={handlePasswordShow}>{showPassword ? <IoEyeSharp /> : <BsFillEyeSlashFill />}</span>
         </div>
-        <button type="submit">kirish</button>
+
+        <button type="submit" disabled={isSubmitting} className="enterToAccaunt">
+          kirish
+        </button>
 
         <p>
           {register ? "Akkaunt bor" : "Akkaun yoqmi?"} <span onClick={handleRegister}>{register ? "Login" : "Register"}</span>

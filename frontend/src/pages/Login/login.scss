@@ -17,6 +17,14 @@
     position: relative;
     text-align: center;
 
+    .enterToAccaunt {
+      &:disabled {
+        opacity: 0.8;
+        cursor: not-allowed;
+      }
+      
+    }
+
     .logTxt {
       font-size: 25px;
     }

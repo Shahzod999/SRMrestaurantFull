@@ -21,7 +21,6 @@ interface FoodBoxProps {
   onUpdateOrder: (food: Food) => void;
 }
 const FoodBox: React.FC<FoodBoxProps> = ({ food, onUpdateOrder }) => {
-  console.log(food);
 
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();

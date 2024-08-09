@@ -75,6 +75,10 @@ export const userLoginSlice = createSlice({
 
 export const selectedUserToken = (state: RootState) => state.token.userToken
 export const selectedUserGetUser = (state: RootState) => state.token.info?.user
+export const selectedLoadingToken = (state: RootState) => state.token.loading
+
+
+
 
 export const { handleTokenUserLogin, handleTokenUserLogOut } = userLoginSlice.actions
 export default userLoginSlice.reducer

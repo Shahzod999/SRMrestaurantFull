@@ -76,11 +76,13 @@ const MenuOrder = ({ foods, orderFuction, text }: { foods: Food[]; orderFuction:
         </div>
       </div>
 
-      <div className="getOrder__button">
-        <button className="totallOrederAll" onClick={pathname == "/menu" ? handleSubmitOrders : orderFuction}>
-          {text}
-        </button>
-      </div>
+      {pathname !== "/edit" && (
+        <div className="getOrder__button">
+          <button className="totallOrederAll" onClick={pathname == "/menu" ? handleSubmitOrders : orderFuction}>
+            {text}
+          </button>
+        </div>
+      )}
     </>
   );
 };

@@ -1,6 +1,6 @@
-import { removeOrderFoodList, selectedOrderedFoods } from "../../features/orderedFoodSlice";
+import { selectedOrderedFoods } from "../../features/orderedFoodSlice";
 import "./getOrder.scss";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { useAppSelector } from "../../hooks/hooks";
 import MenuOrder from "../../components/Menu/MenuOrder";
 
 interface Food {
@@ -12,17 +12,11 @@ interface Food {
 }
 
 const GetOrder = () => {
-  const dispatch = useAppDispatch();
   const orderedFoods = useAppSelector(selectedOrderedFoods) as Food[];
-
-  const handleOrderFinish = () => {
-    dispatch(removeOrderFoodList());
-    window.print();
-  };
 
   return (
     <div className="getOrder">
-      <MenuOrder foods={orderedFoods} orderFuction={handleOrderFinish} text="ZAKAZ" />
+      <MenuOrder foods={orderedFoods} />
 
       <div className="printable-receipt">
         <h2>Receipt</h2>

@@ -12,11 +12,7 @@ const Menu = () => {
     dispatch(fetchAllFoods());
   }, [dispatch]);
 
-  const handleOrderFinish = () => {
-    console.log("default delete ");
-  };
-
-  return <MenuOrder foods={foods} orderFuction={handleOrderFinish} text="Send order" />;
+  return <MenuOrder foods={foods} />;
 };
 
 export default Menu;

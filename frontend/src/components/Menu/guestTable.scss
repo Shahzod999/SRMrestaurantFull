@@ -1,0 +1,49 @@
+.getOrder {
+  @media print {
+    display: none;
+  }
+  margin-top: 50px;
+  .guestTable {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    overflow: hidden;
+
+    &__checkbox {
+      text-align: center;
+      input {
+        height: 30px;
+        width: 100%;
+      }
+    }
+
+    select {
+      background-color: black;
+      padding: 10px;
+      border-radius: 10px;
+      option {
+      }
+    }
+
+    button {
+      background-color: #ff8000;
+    }
+    button:hover {
+      background-color: #b75c00;
+    }
+
+    button {
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .number {
+      padding: 0 20px;
+      font-size: 20px;
+    }
+  }
+}

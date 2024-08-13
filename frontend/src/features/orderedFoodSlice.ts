@@ -7,15 +7,18 @@ export interface OrderedFood {
   amount: number;
   [key: string]: any;
 }
-
+export interface TablePlace {
+  place: string;
+  table: number;
+}
 export interface OrderedFoodState {
   orderedFoods: OrderedFood[];
-  choosenTable: number;
+  choosenTable: TablePlace | null;
 }
 
 const initialState: OrderedFoodState = {
   orderedFoods: JSON.parse(localStorage.getItem("order") || "[]"),
-  choosenTable: Number(localStorage.getItem("choosenTable")) || 0
+  choosenTable: JSON.parse(localStorage.getItem("choosenTable") || "null"),
 }
 
 
@@ -30,7 +33,6 @@ export const orderedFoodSlice = createSlice({
         state.orderedFoods[index] = {
           ...state.orderedFoods[index],
           ...action.payload,
-          amount: state.orderedFoods[index].amount + action.payload.amount,
         };
       } else if (action.payload.amount > 0) {
         state.orderedFoods.push(action.payload);
@@ -39,14 +41,16 @@ export const orderedFoodSlice = createSlice({
     },
     removeOrderFoodList: (state) => {
       state.orderedFoods = [];
-      state.choosenTable = 0;
+      state.choosenTable = null;
       localStorage.removeItem("order");
       localStorage.removeItem("choosenTable")
 
     },
     tableChoose: (state, action) => {
+      console.log(action.payload, '1234');
+
       state.choosenTable = action.payload
-      localStorage.setItem("choosenTable", action.payload)
+      localStorage.setItem("choosenTable", JSON.stringify(action.payload))
     }
   }
 })

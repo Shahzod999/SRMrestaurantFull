@@ -4,13 +4,12 @@ import { useDispatch } from "react-redux";
 import { User, handleTokenUserLogOut } from "../../features/userLoginSlice";
 
 interface HeaderProps {
-  changeBack: () => void;
   // token: string;
   userToken: string | null;
   userInfo: User | undefined;
 }
 
-const Header: React.FC<HeaderProps> = ({ changeBack, userToken, userInfo }) => {
+const Header: React.FC<HeaderProps> = ({ userToken, userInfo }) => {
   // const getUser = useSelector(selectedUserGetUser);
 
   const dispatch = useDispatch();
@@ -25,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ changeBack, userToken, userInfo }) => {
   return (
     <header>
       <div className="container headerWrapper">
-        <nav onClick={changeBack}>
+        <nav>
           <ul>
             <li>
               <Link to="/">Add New Food</Link>

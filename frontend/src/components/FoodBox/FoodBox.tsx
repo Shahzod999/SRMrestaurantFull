@@ -6,7 +6,8 @@ import { fetchAllFoods } from "../../features/getAllFoodsSlice";
 import { GrEdit } from "react-icons/gr";
 import AddNewFoodEditForm from "../AddnewFoodEditForm/AddNewFoodEditForm";
 import axiosInstance from "../../utils/axiosInstance";
-import { useAppDispatch } from "../../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { selectedOrderedFoods } from "../../features/orderedFoodSlice";
 
 interface Food {
   _id: string;
@@ -21,10 +22,12 @@ interface FoodBoxProps {
   onUpdateOrder: (food: Food) => void;
 }
 const FoodBox: React.FC<FoodBoxProps> = ({ food, onUpdateOrder }) => {
-
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
-  const [amount, setFoodAmount] = useState<number>(food.amount ? food.amount : 0);
+  const orderedFoods = useAppSelector(selectedOrderedFoods) as Food[];
+  let orederFood = orderedFoods.find((item) => item._id == food._id);
+
+  const [amount, setFoodAmount] = useState<number>(orederFood?.amount ? orederFood.amount : 0);
   const [edit, setEdit] = useState<boolean>(false);
 
   const handleFoodIncrement = () => {
@@ -32,6 +35,7 @@ const FoodBox: React.FC<FoodBoxProps> = ({ food, onUpdateOrder }) => {
       const newAmount = prevAmount + 1;
       // Отложить обновление заказа до следующего рендера
       requestAnimationFrame(() => onUpdateOrder({ ...food, amount: newAmount }));
+      //requestAnimationFrame указывает браузеру на то, что вы хотите произвести анимацию, и просит его запланировать перерисовку на следующем кадре анимации
       return newAmount;
     });
   };

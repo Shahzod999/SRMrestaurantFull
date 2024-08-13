@@ -6,38 +6,27 @@ import Menu from "./pages/Menu/Menu";
 import GetOrder from "./pages/GetOrder/GetOrder";
 import Header from "./components/Header/Header";
 import Error from "./components/Error/Error";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import SideBarMenu from "./components/SideBar/SideBarMenu";
 import FoodTypes from "./components/FoodTypes/FoodTypes";
-import mainBack0 from "../public/mainBack0.jpg";
-import mainBack1 from "../public/mainBack1.jpg";
-import mainBack2 from "../public/mainBack2.jpg";
-import mainBack3 from "../public/mainBack3.jpg";
 import { fetchUser, selectedUserGetUser, selectedUserToken } from "./features/userLoginSlice";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const [back, setBack] = useState(0);
   const userToken = useAppSelector(selectedUserToken);
   const userInfo = useAppSelector(selectedUserGetUser);
-
-  const changeBack = () => {
-    setBack((prev) => (prev == 3 ? 0 : prev + 1));
-  };
 
   useEffect(() => {
     dispatch(fetchUser());
   }, [userToken]);
 
-  const backgrounds = [mainBack0, mainBack1, mainBack2, mainBack3];
-
   return (
-    <div className="wrapper" style={{ background: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url(${backgrounds[back]}) center` }}>
+    <div className="wrapper">
       <BrowserRouter>
         <SideBarMenu />
         <div className="blur">
-          <Header changeBack={changeBack} userToken={userToken} userInfo={userInfo} />
+          <Header userToken={userToken} userInfo={userInfo} />
           <Routes>
             {userToken ? (
               <>

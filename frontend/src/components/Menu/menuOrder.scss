@@ -10,6 +10,13 @@
 }
 
 .getOrder__button {
+  margin-bottom: 100px;
+
+  &.delete {
+    .totallOrederAll {
+      background-color: red;
+    }
+  }
   @media print {
     display: none;
   }
@@ -23,37 +30,5 @@
     border-radius: 10px;
     font-size: 25px;
     font-weight: 900;
-  }
-}
-.getOrder {
-  margin-top: 25px;
-  .counter {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
-    overflow: hidden;
-
-    &.guestTable {
-      button {
-        background-color: #ff8000;
-      }
-      button:hover {
-        background-color: #b75c00;
-      }
-    }
-
-    button {
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      cursor: pointer;
-      font-size: 18px;
-    }
-
-    .number {
-      padding: 0 20px;
-      font-size: 20px;
-    }
   }
 }

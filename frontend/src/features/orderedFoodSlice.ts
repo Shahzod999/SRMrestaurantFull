@@ -28,8 +28,7 @@ export const orderedFoodSlice = createSlice({
   reducers: {
     addOrderToFoodState: (state, action) => {
       const index = state.orderedFoods.findIndex((food) => food._id === action.payload._id)
-
-      if (index >= 0 && action.payload.amount > 0) {
+      if (index !== -1 && action.payload.amount > 0) {
         state.orderedFoods[index] = {
           ...state.orderedFoods[index],
           ...action.payload,
@@ -39,16 +38,17 @@ export const orderedFoodSlice = createSlice({
       }
       localStorage.setItem("order", JSON.stringify(state.orderedFoods))
     },
+    removeFoodfromOrder: (state, action) => {
+      state.orderedFoods = state.orderedFoods.filter((item) => item._id !== action.payload._id)
+    },
     removeOrderFoodList: (state) => {
       state.orderedFoods = [];
       state.choosenTable = null;
       localStorage.removeItem("order");
       localStorage.removeItem("choosenTable")
-
     },
     tableChoose: (state, action) => {
       console.log(action.payload, '1234');
-
       state.choosenTable = action.payload
       localStorage.setItem("choosenTable", JSON.stringify(action.payload))
     }
@@ -58,5 +58,5 @@ export const orderedFoodSlice = createSlice({
 export const selectedOrderedFoods = (state: RootState) => state.orderedFoods.orderedFoods
 export const selectedGuestTable = (state: RootState) => state.orderedFoods.choosenTable
 
-export const { addOrderToFoodState, removeOrderFoodList, tableChoose } = orderedFoodSlice.actions
+export const { addOrderToFoodState, removeFoodfromOrder, removeOrderFoodList, tableChoose } = orderedFoodSlice.actions
 export default orderedFoodSlice.reducer

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./foodBox.scss";
 import { MdDeleteForever } from "react-icons/md";
 import { useLocation } from "react-router-dom";

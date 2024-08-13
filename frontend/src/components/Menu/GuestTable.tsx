@@ -52,8 +52,6 @@ const GuestTable: React.FC = () => {
     </select>
   );
 
-  console.log(tablePlace, "789");
-
   return (
     <div className="getOrder">
       <div className="counter guestTable">

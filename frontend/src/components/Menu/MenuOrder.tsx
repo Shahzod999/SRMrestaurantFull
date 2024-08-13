@@ -21,8 +21,13 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
 
   const handleUpdateOrder = (updatedFood: Food) => {
     setOrders((prevOrders) => {
+      if (updatedFood.amount === 0) {
+        // Remove the food item if the amount is zero
+        return prevOrders.filter((order) => order._id !== updatedFood._id);
+      }
       const existingOrderIndex = prevOrders.findIndex((order) => order._id === updatedFood._id);
-      if (existingOrderIndex >= 0) {
+
+      if (existingOrderIndex !== -1) {
         const updatedOrders = [...prevOrders];
         updatedOrders[existingOrderIndex] = updatedFood;
         return updatedOrders;
@@ -30,6 +35,8 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
       return [...prevOrders, updatedFood];
     });
   };
+
+  console.log(orders, "orders");
 
   const handleSubmitOrders = () => {
     orders.forEach((order) => dispatch(addOrderToFoodState(order)));

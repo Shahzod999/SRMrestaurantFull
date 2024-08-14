@@ -36,6 +36,7 @@ export const orderedFoodSlice = createSlice({
       } else if (action.payload.amount > 0) {
         state.orderedFoods.push(action.payload);
       }
+      state.orderedFoods.sort((a, b) => a.name.localeCompare(b.name));
       localStorage.setItem("order", JSON.stringify(state.orderedFoods))
     },
     removeFoodfromOrder: (state, action) => {

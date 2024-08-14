@@ -7,7 +7,7 @@ export const store = configureStore({
   reducer: {
     token: userLoginSlice,
     orderedFoods: orderedFoodSlice,
-    allFood: getAllFoodsSlice,
+    allFoods: getAllFoodsSlice,
   }
 })
 

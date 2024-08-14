@@ -18,8 +18,6 @@ const SideBarMenu = () => {
   };
 
   const handleTypeToSearchFoods = (type: string) => {
-    console.log(type, "1");
-
     dispatch(selectTypeFood(type));
     dispatch(fetchAllFoods());
   };

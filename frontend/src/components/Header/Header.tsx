@@ -10,7 +10,6 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ userToken, userInfo }) => {
-  // const getUser = useSelector(selectedUserGetUser);
 
   const dispatch = useDispatch();
 

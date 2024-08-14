@@ -8,9 +8,7 @@ export const fetchAllFoods = createAsyncThunk(
   "allFoods/fetchAllFoods",
   async (_, { getState }) => {
     const state = getState() as RootState;
-    const type = state.allFood.type;
-    console.log(type, "2");
-
+    const type = state.allFoods.type;
     const response = await axiosInstance.get(`${import.meta.env.VITE_BASE_URL}/get-all-foods/${type}`)
     return response.data
   }
@@ -43,7 +41,7 @@ export const getAllFoodsSlice = createSlice({
     bulder
       .addCase(fetchAllFoods.pending, (state) => {
         state.loading = true
-
+        state.error = false
       })
       .addCase(fetchAllFoods.fulfilled, (state, action) => {
         state.loading = false
@@ -52,14 +50,14 @@ export const getAllFoodsSlice = createSlice({
       .addCase(fetchAllFoods.rejected, (state, action) => {
         state.loading = false
         state.error = true
-        console.log(action.error.message)
+        console.error("Error fetching foods:", action.error.message);
       })
   }
 })
 
 
-export const selectedAllFoods = (state: RootState) => state.allFood.products.foods
-export const selectedAllFoodsLoading = (state: RootState) => state.allFood.loading
-export const selectedAllFoodsError = (state: RootState) => state.allFood.error
+export const selectedAllFoods = (state: RootState) => state.allFoods.products.foods
+export const selectedAllFoodsLoading = (state: RootState) => state.allFoods.loading
+export const selectedAllFoodsError = (state: RootState) => state.allFoods.error
 export const { selectTypeFood } = getAllFoodsSlice.actions
 export default getAllFoodsSlice.reducer

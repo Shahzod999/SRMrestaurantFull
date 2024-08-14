@@ -7,24 +7,27 @@ import GetOrder from "./pages/GetOrder/GetOrder";
 import Header from "./components/Header/Header";
 import Error from "./components/Error/Error";
 import { useEffect } from "react";
-import SideBarMenu from "./components/SideBar/SideBarMenu";
 import FoodTypes from "./components/FoodTypes/FoodTypes";
-import { fetchUser, selectedUserGetUser, selectedUserToken } from "./features/userLoginSlice";
+import { fetchUser, selectedLoadingToken, selectedUserGetUser, selectedUserToken } from "./features/userLoginSlice";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
+import Loading from "./components/Loading/Loading";
 
 const App = () => {
   const dispatch = useAppDispatch();
   const userToken = useAppSelector(selectedUserToken);
   const userInfo = useAppSelector(selectedUserGetUser);
+  const loading = useAppSelector(selectedLoadingToken);
 
   useEffect(() => {
     dispatch(fetchUser());
   }, [userToken]);
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div className="wrapper">
       <BrowserRouter>
-        <SideBarMenu />
         <div className="blur">
           <Header userToken={userToken} userInfo={userInfo} />
           <Routes>

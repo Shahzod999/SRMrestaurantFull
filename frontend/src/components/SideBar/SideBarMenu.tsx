@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./sideBarMenu.scss";
 import { GiCampCookingPot } from "react-icons/gi";
-import { Link } from "react-router-dom";
 
 import food from "../../../public/goryach.jpg";
 import food1 from "../../../public/desert.jpg";

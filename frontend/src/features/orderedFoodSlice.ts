@@ -39,7 +39,9 @@ export const orderedFoodSlice = createSlice({
       localStorage.setItem("order", JSON.stringify(state.orderedFoods))
     },
     removeFoodfromOrder: (state, action) => {
+      console.log(state.orderedFoods.filter((item) => item._id !== action.payload._id), 'id');
       state.orderedFoods = state.orderedFoods.filter((item) => item._id !== action.payload._id)
+      localStorage.setItem("order", JSON.stringify(state.orderedFoods))
     },
     removeOrderFoodList: (state) => {
       state.orderedFoods = [];
@@ -48,7 +50,6 @@ export const orderedFoodSlice = createSlice({
       localStorage.removeItem("choosenTable")
     },
     tableChoose: (state, action) => {
-      console.log(action.payload, '1234');
       state.choosenTable = action.payload
       localStorage.setItem("choosenTable", JSON.stringify(action.payload))
     }

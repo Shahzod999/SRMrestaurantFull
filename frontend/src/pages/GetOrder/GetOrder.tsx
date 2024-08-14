@@ -9,10 +9,12 @@ interface Food {
   price: string;
   desc: string;
   amount?: number;
+  type: string;
 }
 
 const GetOrder = () => {
   const orderedFoods = useAppSelector(selectedOrderedFoods) as Food[];
+  //тут мы
 
   return (
     <div className="getOrder">

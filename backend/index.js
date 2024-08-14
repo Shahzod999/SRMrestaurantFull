@@ -84,14 +84,11 @@ app.post("/create-accaunt", async (req, res) => {
   });
   // Возвращает ответ с данными пользователя, токеном и сообщением об успешной регистрации.
 });
-
 //
 //
 //
 //
-
 // Login
-
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -171,7 +168,7 @@ app.get("/get-user", authenticateToken, async (req, res) => {
 //
 // Add Food
 app.post("/add-food", authenticateToken, async (req, res) => {
-  const { name, price, desc } = req.body;
+  const { name, price, desc, type } = req.body;
   const { user } = req.user;
 
   if (!name) {
@@ -183,6 +180,9 @@ app.post("/add-food", authenticateToken, async (req, res) => {
   }
   if (!desc) {
     return res.status(400).json({ error: true, message: "desc is required" });
+  }
+  if (!type) {
+    return res.status(400).json({ error: true, message: "type is required" });
   }
 
   try {
@@ -196,6 +196,7 @@ app.post("/add-food", authenticateToken, async (req, res) => {
       name,
       price,
       desc,
+      type,
       userId: user._id,
     });
 
@@ -217,7 +218,7 @@ app.post("/add-food", authenticateToken, async (req, res) => {
 //
 //
 //
-// Get All Notes
+// Get All Foods
 app.get("/get-all-foods", authenticateToken, async (req, res) => {
   const { user } = req.user;
 
@@ -237,7 +238,39 @@ app.get("/get-all-foods", authenticateToken, async (req, res) => {
     });
   }
 });
+//
+//
+//
+//
+// Get Food By Type
+app.get("/get-all-foods/:type", authenticateToken, async (req, res) => {
+  const type = req.params.type;
+  const { user } = req.user;
 
+  try {
+    const foods = await Food.find({ type: type });
+
+    if (foods.length === 0) {
+      return res.status(404).json({ error: true, message: "Foods by type not found" });
+    }
+
+    return res.json({
+      error: false,
+      count: foods.length,
+      foods,
+      message: "All foods retrived successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: true,
+      message: "internal Server Error",
+    });
+  }
+});
+//
+//
+//
+//
 // Delete Food
 app.delete("/delete-food/:foodId", authenticateToken, async (req, res) => {
   const foodId = req.params.foodId;
@@ -265,13 +298,13 @@ app.delete("/delete-food/:foodId", authenticateToken, async (req, res) => {
 //
 //
 //
-//Edit Note
+//Edit Food
 app.put("/edit-food/:id", authenticateToken, async (req, res) => {
   const foodId = req.params.id;
-  const { name, price, desc } = req.body;
+  const { name, price, desc, type } = req.body;
   const { user } = req.user;
 
-  if (!name && !price && !desc) {
+  if (!name && !price && !desc && !type) {
     return res.status(400).json({ error: true, message: "No Changes provided" });
   }
   if (!user.userBoss) {
@@ -294,13 +327,16 @@ app.put("/edit-food/:id", authenticateToken, async (req, res) => {
     if (desc) {
       food.desc = desc;
     }
+    if (type) {
+      food.type = type;
+    }
 
     await food.save();
 
     return res.json({
       error: false,
       food,
-      message: "Note updated Successfully",
+      message: "Food updated Successfully",
     });
   } catch (error) {
     return res.status(500).json({

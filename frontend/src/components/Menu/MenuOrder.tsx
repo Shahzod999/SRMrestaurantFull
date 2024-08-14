@@ -1,8 +1,8 @@
 import FoodBox from "../FoodBox/FoodBox";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./menuOrder.scss";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
-import { addOrderToFoodState, removeOrderFoodList, selectedGuestTable, tableChoose } from "../../features/orderedFoodSlice";
+import { useAppDispatch } from "../../hooks/hooks";
+import { addOrderToFoodState, removeFoodfromOrder, removeOrderFoodList } from "../../features/orderedFoodSlice";
 import { useLocation } from "react-router-dom";
 import GuestTable from "./GuestTable";
 
@@ -12,6 +12,7 @@ interface Food {
   price: string;
   desc: string;
   amount?: number;
+  type: string;
 }
 
 const MenuOrder = ({ foods }: { foods: Food[] }) => {
@@ -22,7 +23,10 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
   const handleUpdateOrder = (updatedFood: Food) => {
     setOrders((prevOrders) => {
       if (updatedFood.amount === 0) {
-        // Remove the food item if the amount is zero
+        // Удаляем еду из временного хранилища а затем и из основного хранилища
+        console.log(updatedFood);
+        dispatch(removeFoodfromOrder(updatedFood));
+
         return prevOrders.filter((order) => order._id !== updatedFood._id);
       }
       const existingOrderIndex = prevOrders.findIndex((order) => order._id === updatedFood._id);
@@ -36,16 +40,14 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
     });
   };
 
-  console.log(orders, "orders");
-
   const handleSubmitOrders = () => {
     orders.forEach((order) => dispatch(addOrderToFoodState(order)));
   };
 
   const handleOrderFinish = async () => {
     await handleSubmitOrders();
-    dispatch(removeOrderFoodList());
     window.print();
+    dispatch(removeOrderFoodList());
   };
 
   const handleClearOrder = () => {
@@ -55,8 +57,8 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
   return (
     <>
       <div className="getOrder__holder">
-        {foods?.map((food, index) => (
-          <FoodBox food={food} key={index} onUpdateOrder={handleUpdateOrder} />
+        {foods?.map((food) => (
+          <FoodBox food={food} key={food._id} onUpdateOrder={handleUpdateOrder} />
         ))}
       </div>
 

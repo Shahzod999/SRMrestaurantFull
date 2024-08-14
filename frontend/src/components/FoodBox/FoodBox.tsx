@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./foodBox.scss";
 import { MdDeleteForever } from "react-icons/md";
 import { useLocation } from "react-router-dom";
@@ -15,6 +15,7 @@ interface Food {
   price: string;
   desc: string;
   amount?: number;
+  type: string;
 }
 
 interface FoodBoxProps {
@@ -58,13 +59,14 @@ const FoodBox: React.FC<FoodBoxProps> = ({ food, onUpdateOrder }) => {
     }
   };
 
-  const handleEditFood = async (data: { name: string; price: string; desc: string }) => {
-    const { name, price, desc } = data;
+  const handleEditFood = async (data: { name: string; price: string; desc: string; type: string }) => {
+    const { name, price, desc, type } = data;
     try {
       const response = await axiosInstance.put("/edit-food/" + food._id, {
         name,
         price,
         desc,
+        type,
       });
       console.log(response);
 
@@ -85,12 +87,13 @@ const FoodBox: React.FC<FoodBoxProps> = ({ food, onUpdateOrder }) => {
       )}
 
       {edit ? (
-        <AddNewFoodEditForm mode="edit" initialValues={{ name: food.name, price: food.price, desc: food.desc }} setError={() => {}} onSubmit={(data) => handleEditFood(data)} />
+        <AddNewFoodEditForm mode="edit" initialValues={{ name: food.name, price: food.price, desc: food.desc, type: food.type }} setError={() => {}} onSubmit={(data) => handleEditFood(data)} />
       ) : (
         <>
           <h2>{food.name}</h2>
           <strong>{food.price}</strong>
           <span>{food.desc}</span>
+          <span>{food.type}</span>
           <div className="counter amount">
             <button className="decrement" onClick={handleFoodDecrement}>
               -

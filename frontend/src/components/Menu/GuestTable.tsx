@@ -1,11 +1,17 @@
 import "./guestTable.scss";
-import { useState, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { selectedGuestTable, tableChoose } from "../../features/orderedFoodSlice";
-import { useLocation } from "react-router-dom";
+import CustomDropdown from "../DropDown/CustomDropdown";
 
+// Типизация
+interface TablePlace {
+  place: string;
+  table: number;
+}
+
+// Компонент GuestTable
 const GuestTable: React.FC = () => {
-  const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const choosenTable = useAppSelector(selectedGuestTable);
 
@@ -15,19 +21,22 @@ const GuestTable: React.FC = () => {
     Ichkari: [15, 16, 17, 18, 19, 20, 21],
   };
 
-  const [tablePlace, setTablePlace] = useState(
+  const [tablePlace, setTablePlace] = useState<TablePlace>(
     choosenTable || {
       place: "Center",
-      table: options["Center"][0], // Первоначально первый элемент для "Center"
+      table: options["Center"][0],
     }
   );
+
+  useEffect(() => {
+    dispatch(tableChoose(tablePlace));
+  }, [tablePlace, dispatch]); // Выставляем место при изменении tablePlace
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedPlace = event.target.value;
     setTablePlace({
       place: selectedPlace,
-      table: options[selectedPlace][0], //первый элемент из массива
-      //преобразуется в целое число с использованием основания системы счисления 10 (десятичная система). Это важно, так как значения из <select> по умолчанию возвращаются как строки.
+      table: options[selectedPlace][0],
     });
   };
 
@@ -37,20 +46,6 @@ const GuestTable: React.FC = () => {
       table: parseInt(event.target.value, 10),
     });
   };
-
-  const handleGuestTable = () => {
-    dispatch(tableChoose(tablePlace));
-  };
-
-  const renderSelect = () => (
-    <select id={tablePlace.place} value={tablePlace.table} onChange={handleSelectChange}>
-      {options[tablePlace.place].map((num) => (
-        <option key={num} value={num}>
-          {num}
-        </option>
-      ))}
-    </select>
-  );
 
   return (
     <div className="getOrder">
@@ -62,9 +57,7 @@ const GuestTable: React.FC = () => {
           </div>
         ))}
 
-        {renderSelect()}
-
-        <button onClick={handleGuestTable}>{pathname === "/menu" ? "Set Table" : "Change Table"}</button>
+        <CustomDropdown tablePlace={tablePlace} options={options} handleSelectChange={handleSelectChange} />
       </div>
     </div>
   );

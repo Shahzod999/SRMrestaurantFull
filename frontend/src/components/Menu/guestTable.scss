@@ -1,28 +1,17 @@
 .getOrder {
-  @media print {
-    display: none;
-  }
   margin-top: 50px;
   .guestTable {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 50px;
-    overflow: hidden;
+    // overflow: hidden;
 
     &__checkbox {
       text-align: center;
       input {
         height: 30px;
         width: 100%;
-      }
-    }
-
-    select {
-      background-color: black;
-      padding: 10px;
-      border-radius: 10px;
-      option {
       }
     }
 
@@ -39,6 +28,9 @@
       padding: 10px 15px;
       cursor: pointer;
       font-size: 18px;
+      @media print {
+        display: none;
+      }
     }
 
     .number {

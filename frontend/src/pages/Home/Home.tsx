@@ -5,7 +5,7 @@ import { useState } from "react";
 const Home = () => {
   const [error, setError] = useState<string>("");
 
-  const handleAddFood = (data: { name: string; price: string; desc: string }) => {
+  const handleAddFood = (data: { name: string; price: string; desc: string; type: string }) => {
     console.log("Food added:", data);
   };
 

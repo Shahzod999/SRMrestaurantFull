@@ -6,6 +6,7 @@ const menuSchema = new Schema({
   name: { type: String, required: true },
   price: { type: String, required: true },
   desc: { type: String, required: true },
+  type: { type: String, required: true },
   amount: { type: Boolean, required: false },
   userId: { type: String, required: true },
   createdOn: { type: Date, default: new Date().getTime() },

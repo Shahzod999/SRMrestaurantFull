@@ -7,6 +7,9 @@ import MenuOrder from "../../components/Menu/MenuOrder";
 const Menu = () => {
   const dispatch = useAppDispatch();
   const foods = useAppSelector(selectedAllFoods);
+  console.log(foods,'mi tut');
+  
+  //тут мы
 
   useEffect(() => {
     dispatch(fetchAllFoods());

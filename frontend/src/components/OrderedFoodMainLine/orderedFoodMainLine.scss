@@ -12,6 +12,11 @@
     border-radius: 20px;
     background-color: #d9d9d97c;
     transition: 0.1s ease-in-out;
+    @include media(450) {
+      font-size: 10.94px;
+      font-weight: 400;
+    }
+
     strong {
       background-color: #d9d9d9;
       border-radius: 50%;
@@ -38,12 +43,16 @@
     background-color: #d9d9d97c;
     padding: 15px;
     @include media(450) {
-      gap: 5px;
+      gap: 10px;
     }
 
     strong {
       font-size: 14px;
       font-weight: 700;
+      @include media(450) {
+        font-size: 9.02px;
+        font-weight: 700;
+      }
     }
     div {
       display: flex;
@@ -59,6 +68,10 @@
       span {
         font-size: 14px;
         font-weight: 400;
+        @include media(450) {
+          font-size: 9.02px;
+          font-weight: 400;
+        }
       }
     }
     transition: 0.1s ease-in-out;
@@ -96,7 +109,7 @@
   position: relative;
   transition: scale 0.2s linear;
   @include media(450) {
-    width: auto;
+    width: 161px;
   }
 }
 
@@ -144,6 +157,7 @@
   padding: 2rem 0.5rem;
   margin: 0 50px;
   @include media(450) {
+    padding: 1rem 0.5rem;
     margin: 0 10px;
   }
 }

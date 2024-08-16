@@ -1,5 +1,5 @@
 import "./guestTable.scss";
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { selectedGuestTable, tableChoose } from "../../features/orderedFoodSlice";
 import CustomDropdown from "../DropDown/CustomDropdown";
@@ -30,7 +30,7 @@ const GuestTable: React.FC = () => {
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedPlace = event.target.value;
-    setTablePlace((prev) => {
+    setTablePlace(() => {
       const newTable = {
         place: selectedPlace,
         table: options[selectedPlace][0],

@@ -9,7 +9,7 @@ const Error = () => {
       </div>
       <div className="sm-screen">404</div>
       <div className="mean-msg">
-        Nothing to see here, <a href="/">go back home!</a>
+        Nothing to see here, <a href="/menu">go back home!</a>
       </div>
     </div>
   );

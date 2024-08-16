@@ -1,0 +1,177 @@
+@import "../../media.scss";
+
+.orderedFoodMainTotal {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  span {
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #d9d9d97c;
+    transition: 0.1s ease-in-out;
+    strong {
+      background-color: #d9d9d9;
+      border-radius: 50%;
+      padding: 5px;
+    }
+
+    &:hover,
+    &:active {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.orderedFoodMainLine {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 35px;
+  &__box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: fit-content;
+    border-radius: 10px;
+    background-color: #d9d9d97c;
+    padding: 15px;
+    @include media(450) {
+      gap: 5px;
+    }
+
+    strong {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    div {
+      display: flex;
+      gap: 65px;
+      @include media(450) {
+        gap: 35px;
+      }
+      .position {
+        padding: 6px;
+        background-color: #d9d9d9;
+        border-radius: 10px;
+      }
+      span {
+        font-size: 14px;
+        font-weight: 400;
+      }
+    }
+    transition: 0.1s ease-in-out;
+
+    &:hover,
+    &:active {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.wiper {
+  position: relative;
+  h1 {
+    text-align: center;
+    margin: 3rem 0;
+  }
+
+  li {
+    list-style: none;
+  }
+}
+
+.wiper-track {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  column-gap: 1.5rem;
+  margin: 0 auto;
+  transition: transform 0.4s ease-in;
+  padding: 0 1rem;
+}
+
+.wiper-item {
+  width: 250px;
+  position: relative;
+  transition: scale 0.2s linear;
+  @include media(450) {
+    width: auto;
+  }
+}
+
+.wiper-button img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.active-swipe {
+  transform: scale(1.1);
+}
+
+.wiper-button {
+  height: 35px;
+  width: 35px;
+  position: absolute;
+  top: 50%;
+  background: transparent;
+  border: none;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.wiper-button__left {
+  right: 0;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.wiper__image-button {
+  right: 50%;
+  top: 50%;
+  position: absolute;
+  padding: 0.8rem 1rem;
+  border-radius: 3px;
+  background-color: white;
+  border: none;
+  font-size: 1.4rem;
+  transform: translateY(-50%) translateX(50%);
+  cursor: pointer;
+}
+
+.wiper-wrapper {
+  overflow: hidden;
+  padding: 2rem 0.5rem;
+  margin: 0 50px;
+  @include media(450) {
+    margin: 0 10px;
+  }
+}
+
+.swiper__image-button {
+  right: 50%;
+  top: 50%;
+  position: absolute;
+  padding: 0.8rem 1rem;
+  border-radius: 3px;
+  background-color: white;
+  border: none;
+  font-size: 1rem;
+  transform: translateY(-50%) translateX(50%);
+  cursor: pointer;
+}
+
+.swiper__image-button:hover {
+  color: red;
+}
+
+.wiper__image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 30px;
+}
+
+.is-hidden {
+  display: none;
+}

@@ -28,33 +28,31 @@ const App = () => {
   return (
     <div className="wrapper">
       <BrowserRouter>
-        <div className="blur">
-          <Header userToken={userToken} userInfo={userInfo} />
-          <Routes>
-            {userToken ? (
-              <>
-                {userInfo?.userBoss && (
-                  <>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/edit" element={<Menu />} />
-                  </>
-                )}
-                <Route path="/menu" element={<Menu />} />
-                <Route path="/menu/goryach" element={<FoodTypes typeFood={"Горячая"} />} />
-                <Route path="/menu/desert" element={<FoodTypes typeFood={"Десерт"} />} />
-                <Route path="/menu/fastfood" element={<FoodTypes typeFood={"ФастФуд"} />} />
-                <Route path="/menu/drinks" element={<FoodTypes typeFood={"Напитки"} />} />
-                <Route path="/getOrder" element={<GetOrder />} />
-                <Route path="*" element={<Error />} />
-              </>
-            ) : (
-              <>
-                <Route path="/login" element={<Login />} />
-                <Route path="*" element={<Navigate to="/login" replace />} />
-              </>
-            )}
-          </Routes>
-        </div>
+        <Header userToken={userToken} userInfo={userInfo} />
+        <Routes>
+          {userToken ? (
+            <>
+              {userInfo?.userBoss && (
+                <>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/edit" element={<Menu />} />
+                </>
+              )}
+              <Route path="/menu" element={<Menu />} />
+              <Route path="/menu/goryach" element={<FoodTypes typeFood={"Горячая"} />} />
+              <Route path="/menu/desert" element={<FoodTypes typeFood={"Десерт"} />} />
+              <Route path="/menu/fastfood" element={<FoodTypes typeFood={"ФастФуд"} />} />
+              <Route path="/menu/drinks" element={<FoodTypes typeFood={"Напитки"} />} />
+              <Route path="/getOrder" element={<GetOrder />} />
+              <Route path="*" element={<Error />} />
+            </>
+          ) : (
+            <>
+              <Route path="/login" element={<Login />} />
+              <Route path="*" element={<Navigate to="/login" replace />} />
+            </>
+          )}
+        </Routes>
       </BrowserRouter>
     </div>
   );

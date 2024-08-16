@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Pacifico&display=swap");
-
+@import "../public/fonts/fonts.scss";
+@import "./media.scss";
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Exo 2", sans-serif;
-  color: white;
+  font-family: "gothampro", sans-serif;
+  // color: white;
 }
 
 a {
@@ -16,12 +16,11 @@ li {
   list-style: none;
 }
 .container {
-  padding: 15px 3vw;
+  max-width: 1440px;
+  margin: auto;
+  padding: 0 3vw;
 }
 .wrapper {
-  background-color: rgb(31, 31, 31);
-}
-.blur {
   min-height: 100vh;
-  backdrop-filter: blur(2px);
+  background-color: rgb(243, 243, 243);
 }

@@ -1,0 +1,27 @@
+// Define the font styles and weights
+$gothampro: (
+  "black": 900,
+  "medium": 500,
+  "mediumitalic": 500,
+  "blackitalic": 900,
+  "bold": 700,
+  "italic": 400,
+  "light": 300,
+  "lightitalic": 300,
+);
+
+// Mixin to generate @font-face rules
+@mixin gothampro-font($font-map) {
+  @each $name, $weight in $font-map {
+    @font-face {
+      font-family: "gothampro";
+      src: url("../fonts/gothampro_#{$name}.ttf") format("truetype");
+      font-weight: $weight;
+      font-style: if(str-index($name, "italic"), italic, normal);
+      font-display: swap;
+    }
+  }
+}
+
+// Use the mixin to generate the @font-face rules
+@include gothampro-font($gothampro);

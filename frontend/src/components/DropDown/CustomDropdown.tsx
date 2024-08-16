@@ -14,12 +14,10 @@ interface CustomDropdownProps {
 
 const CustomDropdown: React.FC<CustomDropdownProps> = ({ tablePlace, options, handleSelectChange }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(tablePlace.table);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const handleOptionClick = (value: number) => {
-    setSelectedValue(value);
     setIsOpen(false);
     handleSelectChange({ target: { value: value.toString() } } as ChangeEvent<HTMLSelectElement>);
     //fake event
@@ -28,7 +26,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ tablePlace, options, ha
   return (
     <div className="dropdown">
       <div className="dropdown-header" onClick={toggleDropdown}>
-        {selectedValue || "Select an option"}
+        {tablePlace.table || "Select an option"}
       </div>
       {isOpen && (
         <ul className="dropdown-list">

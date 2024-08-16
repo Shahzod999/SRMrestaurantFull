@@ -1,25 +1,33 @@
 header {
+  padding: 15px 0;
+  border-bottom: 1px solid #d9d9d9;
+  margin-bottom: 25px;
   .headerWrapper {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin-bottom: 80px;
 
     nav {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       row-gap: 50px;
-      margin-left: 80px;
       width: 100%;
       ul {
         display: flex;
         align-items: center;
         gap: 5vw;
-        flex-wrap: wrap;
+        flex-wrap: wrap-reverse;
         li {
-          a {
-            font-family: "Pacifico", cursive;
+          .userInfo {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            span {
+              text-transform: lowercase;
+              margin-right: 8px;
+              color: #7c7c7c;
+            }
           }
           button {
             border: 2px solid rgb(238, 13, 13);

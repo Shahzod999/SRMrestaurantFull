@@ -90,18 +90,26 @@ const FoodBox: React.FC<FoodBoxProps> = ({ food, onUpdateOrder }) => {
         <AddNewFoodEditForm mode="edit" initialValues={{ name: food.name, price: food.price, desc: food.desc, type: food.type }} setError={() => {}} onSubmit={(data) => handleEditFood(data)} />
       ) : (
         <>
-          <h2>{food.name}</h2>
-          <strong>{food.price}</strong>
-          <span>{food.desc}</span>
-          <span>{food.type}</span>
-          <div className="counter amount">
-            <button className="decrement" onClick={handleFoodDecrement}>
-              -
-            </button>
-            <span className="number">{amount}</span>
-            <button className="increment" onClick={handleFoodIncrement}>
-              +
-            </button>
+          <div className="foodBox__picturePlace">
+            <img src="noPic.jpg" alt="" />
+          </div>
+          <div className="foodBox__name">
+            <span>{food.type}</span>
+            <h2>{food.name}</h2>
+            <p>{food.desc}</p>
+          </div>
+
+          <div className="foodBox__buttons">
+            <strong>{food.price}</strong>
+            <div className="counter amount">
+              <button className="decrement" onClick={handleFoodDecrement}>
+                -
+              </button>
+              <span className="number">{amount}</span>
+              <button className="increment" onClick={handleFoodIncrement}>
+                +
+              </button>
+            </div>
           </div>
         </>
       )}

@@ -5,6 +5,10 @@ import { useAppDispatch } from "../../hooks/hooks";
 import { addOrderToFoodState, removeFoodfromOrder, removeOrderFoodList } from "../../features/orderedFoodSlice";
 import { useLocation } from "react-router-dom";
 import GuestTable from "./GuestTable";
+import toast from "react-hot-toast";
+import { IoCheckmarkDoneSharp } from "react-icons/io5";
+import { FaCheck } from "react-icons/fa";
+import { GrClear } from "react-icons/gr";
 
 interface Food {
   _id: string;
@@ -47,6 +51,7 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
   const handleOrderFinish = async () => {
     await handleSubmitOrders();
     window.print();
+    toast.success("Order Sent");
     dispatch(removeOrderFoodList());
   };
 
@@ -66,21 +71,23 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
         <>
           <GuestTable />
 
-          <div className="getOrder__button">
-            <button className="totallOrederAll" onClick={pathname == "/menu" ? handleSubmitOrders : handleOrderFinish}>
-              {pathname == "/menu" ? "Send order" : "Zakaz"}
-            </button>
-          </div>
+          <div className="getOrder__holder__buttons">
+            {pathname == "/getOrder" && (
+              <>
+                <div className="getOrder__holder__buttons__button delete">
+                  <button className="totallOrederAll" onClick={handleClearOrder}>
+                    <GrClear />
+                  </button>
+                </div>
+              </>
+            )}
 
-          {pathname == "/getOrder" && (
-            <>
-              <div className="getOrder__button delete">
-                <button className="totallOrederAll" onClick={handleClearOrder}>
-                  Clear
-                </button>
-              </div>
-            </>
-          )}
+            <div className="getOrder__holder__buttons__button">
+              <button className="totallOrederAll" onClick={pathname == "/menu" ? handleSubmitOrders : handleOrderFinish}>
+                {pathname == "/menu" ? <FaCheck /> : <IoCheckmarkDoneSharp />}
+              </button>
+            </div>
+          </div>
         </>
       )}
     </>

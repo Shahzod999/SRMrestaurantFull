@@ -10,7 +10,6 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ userToken, userInfo }) => {
-
   const dispatch = useDispatch();
 
   const handleHeaderLogin = () => {
@@ -41,9 +40,11 @@ const Header: React.FC<HeaderProps> = ({ userToken, userInfo }) => {
               <Link to="/getOrder">Принятые Заказ</Link>
             </li>
 
-            <li>{userInfo?.fullName}</li>
             <li>
-              <button onClick={handleHeaderLogin}>{userToken ? "SIGN-OUT" : "LOGIN"}</button>
+              <div className="userInfo">
+                <button onClick={handleHeaderLogin}>{userToken ? "SIGN-OUT" : "LOGIN"}</button>
+                <span>{userInfo?.fullName}</span>
+              </div>
             </li>
           </ul>
         </nav>

@@ -6,15 +6,13 @@ import MenuOrder from "../../components/Menu/MenuOrder";
 import Error from "../../components/Error/Error";
 import SideBarMenu from "../../components/SideBar/SideBarMenu";
 import Loading from "../../components/Loading/Loading";
+import OrderedFoodMainLine from "../../components/OrderedFoodMainLine/OrderedFoodMainLine";
 
 const Menu = () => {
   const dispatch = useAppDispatch();
   const foods = useAppSelector(selectedAllFoods);
   const error = useAppSelector(selectedAllFoodsError);
   const loading = useAppSelector(selectedAllFoodsLoading);
-  console.log(foods, "mi tut");
-  console.log(error, "mi tut");
-  console.log(loading, "mi tut");
 
   //тут мы
 
@@ -27,7 +25,7 @@ const Menu = () => {
   }
   if (error) {
     return (
-      <div>
+      <div className="container">
         <SideBarMenu />
         <Error />
       </div>
@@ -35,10 +33,17 @@ const Menu = () => {
   }
 
   return (
-    <>
+    <main className="container mainMenu">
+      <p className="mainMenu__orderLine">Order line</p>
+
+      <OrderedFoodMainLine />
+
+      <p className="mainMenu__orderLine">Foodies menu</p>
       <SideBarMenu />
-      <MenuOrder foods={foods} />
-    </>
+      <div>
+        <MenuOrder foods={foods} />
+      </div>
+    </main>
   );
 };
 

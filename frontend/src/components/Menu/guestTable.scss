@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: center;
     gap: 50px;
-    // overflow: hidden;
+    flex-wrap: wrap;
 
     &__checkbox {
       text-align: center;

@@ -17,7 +17,7 @@ const GetOrder = () => {
   //тут мы
 
   return (
-    <div className="getOrder">
+    <div className="container getOrder">
       <MenuOrder foods={orderedFoods} />
 
       <div className="printable-receipt">

@@ -47,7 +47,7 @@ const AddNewFoodEditForm: React.FC<AddNewFoodEditFormProps> = ({ mode, initialVa
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="addNewFoodForm">
       <input type="text" value={name} placeholder="name" onChange={(e) => setName(e.target.value)} required />
       <input type="text" value={price} placeholder="price" onChange={(e) => setPrice(e.target.value)} required />
       <input type="text" value={desc} placeholder="desc" onChange={(e) => setDesc(e.target.value)} required />

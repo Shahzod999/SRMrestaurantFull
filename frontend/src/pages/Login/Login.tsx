@@ -9,6 +9,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import { useDispatch } from "react-redux";
 import { handleTokenUserLogin, selectedLoadingToken } from "../../features/userLoginSlice";
 import { useAppSelector } from "../../hooks/hooks";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const Login = () => {
   const [fullname, setFullname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [commonError, setError] = useState<string>("");
 
   const setBossStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBoss(e.target.value === "SHOH");
@@ -41,9 +42,12 @@ const Login = () => {
 
     if (!validateEmail(email)) {
       setError("Please enter a valid email adress.");
+      toast.error(commonError);
+      return;
     }
     if (!password) {
       setError("Please enter a valid password.");
+      toast.error(commonError);
       return;
     }
 
@@ -69,6 +73,7 @@ const Login = () => {
       } else {
         setError("An unexpected error occurred. Please try again.");
       }
+      toast.error(commonError);
     }
   };
 
@@ -141,7 +146,7 @@ const Login = () => {
             <input type="text" placeholder="Boss?" onChange={(e) => setBossStatus(e)} />
           </>
         )}
-        <input type="email" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input type="text" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <div className="password">
           <input
             type={showPassword ? "text" : "password"}
@@ -162,7 +167,7 @@ const Login = () => {
           {register ? "Akkaunt bor" : "Akkaun yoqmi?"} <span onClick={handleRegister}>{register ? "Login" : "Register"}</span>
         </p>
 
-        <span style={{ color: "red" }}>{error}</span>
+        <span style={{ color: "red" }}>{commonError}</span>
       </form>
     </div>
   );

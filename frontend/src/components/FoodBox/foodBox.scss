@@ -1,12 +1,40 @@
 .foodBox {
-  border: solid;
+  border: 1px solid #878787;
+
   padding: 15px;
-  min-width: 300px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   border-radius: 10px;
-  text-align: center;
+
+  &__picturePlace {
+    min-width: 170px;
+    height: 98px;
+    border-radius: 10px;
+    overflow: hidden;
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__name {
+    h2 {
+      font-size: 25px;
+      font-weight: 400;
+    }
+    span {
+      font-size: 12px;
+      font-weight: 400;
+      text-align: left !important;
+      color: #7c7c7c;
+    }
+    p {
+      font-size: 15px;
+      text-align: right;
+      color: #7c7c7c;
+    }
+  }
   &__editDelete {
     display: flex;
     justify-content: space-around;
@@ -21,47 +49,54 @@
     }
   }
 
-  .order {
-    padding: 10px 0;
-    background-color: teal;
-    border: none;
-    text-transform: uppercase;
-    font-size: 20px;
-    transition: 0.2s ease-in-out;
-  }
-  .order:active {
-    background-color: rgb(0, 91, 91);
-    box-shadow: 0 0 5px black inset;
-  }
+  // .order {
+  //   padding: 10px 0;
+  //   background-color: teal;
+  //   border: none;
+  //   text-transform: uppercase;
+  //   font-size: 20px;
+  //   transition: 0.2s ease-in-out;
+  // }
+  // .order:active {
+  //   background-color: rgb(0, 91, 91);
+  //   box-shadow: 0 0 5px black inset;
+  // }
 
-  .counter {
+  &__buttons {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 0.5px solid #ccc;
-    border-radius: 5px;
-    overflow: hidden;
-
-    &.amount {
-      button {
-        background-color: #007bff;
-      }
-      button:hover {
-        background-color: #0056b3;
-      }
+    gap: 30px;
+    strong {
+      font-size: 25px;
+      font-weight: 400;
+      line-height: 11.23px;
     }
+    .counter {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-    button {
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      cursor: pointer;
-      font-size: 18px;
-    }
+      &.amount {
+        button {
+          color: white;
+          border: none;
+          cursor: pointer;
+          font-size: 18px;
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
+          background-color: #1c9e9e;
+        }
+        button:hover {
+          background-color: #0056b3;
+        }
+      }
 
-    .number {
-      padding: 0 20px;
-      font-size: 20px;
+      .number {
+        padding: 0 20px;
+        font-size: 20px;
+      }
     }
   }
 }

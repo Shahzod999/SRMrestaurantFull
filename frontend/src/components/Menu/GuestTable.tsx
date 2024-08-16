@@ -28,22 +28,27 @@ const GuestTable: React.FC = () => {
     }
   );
 
-  useEffect(() => {
-    dispatch(tableChoose(tablePlace));
-  }, [tablePlace, dispatch]); // Выставляем место при изменении tablePlace
-
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedPlace = event.target.value;
-    setTablePlace({
-      place: selectedPlace,
-      table: options[selectedPlace][0],
+    setTablePlace((prev) => {
+      const newTable = {
+        place: selectedPlace,
+        table: options[selectedPlace][0],
+      };
+      dispatch(tableChoose(newTable));
+      return newTable;
     });
   };
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setTablePlace({
-      ...tablePlace,
-      table: parseInt(event.target.value, 10),
+    const newTablePlace = parseInt(event.target.value, 10);
+    setTablePlace((prev) => {
+      const newTable = {
+        ...prev,
+        table: newTablePlace,
+      };
+      dispatch(tableChoose(newTable));
+      return newTable;
     });
   };
 

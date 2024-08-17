@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 export interface OrderedFood {
   _id: string;
   amount: number;
+  portion: number;
   [key: string]: any;
 }
 export interface TablePlace {
@@ -28,7 +29,7 @@ export const orderedFoodSlice = createSlice({
   initialState,
   reducers: {
     addOrderToFoodState: (state, action) => {
-      const index = state.orderedFoods.findIndex((food) => food._id === action.payload._id)
+      const index = state.orderedFoods.findIndex((food) => food._id + food.portion === action.payload._id + action.payload.portion)
       if (index !== -1 && action.payload.amount > 0) {
         state.orderedFoods[index] = {
           ...state.orderedFoods[index],
@@ -45,8 +46,7 @@ export const orderedFoodSlice = createSlice({
       });
     },
     removeFoodfromOrder: (state, action) => {
-      console.log(state.orderedFoods.filter((item) => item._id !== action.payload._id), 'id');
-      state.orderedFoods = state.orderedFoods.filter((item) => item._id !== action.payload._id)
+      state.orderedFoods = state.orderedFoods.filter((item) => item._id + item.portion !== action.payload._id + action.payload.portion)
       localStorage.setItem("order", JSON.stringify(state.orderedFoods))
       toast.success('Food delete', {
         style: {

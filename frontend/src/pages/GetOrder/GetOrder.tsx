@@ -10,10 +10,13 @@ interface Food {
   desc: string;
   amount?: number;
   type: string;
+  portion: number;
 }
 
 const GetOrder = () => {
   const orderedFoods = useAppSelector(selectedOrderedFoods) as Food[];
+  console.log(orderedFoods, "777");
+
   //тут мы
 
   return (
@@ -30,6 +33,7 @@ const GetOrder = () => {
             </p>
             <p>Amount: {food.amount}</p>
             <p>Price: {food.price}</p>
+            <p>Portion: {food.portion}</p>
             <p>Description: {food.desc}</p>
             <hr />
           </div>

@@ -3,6 +3,9 @@
   // height: 100%;
   // position: relative;
   margin-bottom: 40px;
+  ::-webkit-scrollbar {
+    display: none;
+  }
   .logo {
     display: none;
     position: fixed;
@@ -37,6 +40,7 @@
       border-radius: 10px;
       transition: 0.2s ease-in-out;
       padding: 12px 22px;
+      cursor: pointer;
       @include media(450) {
         padding: 10px 20px;
       }
@@ -75,7 +79,7 @@
 
       &:hover,
       &:active {
-        transform: scale(1.05);
+        padding: 10px;
       }
     }
   }

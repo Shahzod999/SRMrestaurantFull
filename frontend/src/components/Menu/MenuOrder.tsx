@@ -17,12 +17,14 @@ interface Food {
   desc: string;
   amount?: number;
   type: string;
+  portion: number;
 }
 
 const MenuOrder = ({ foods }: { foods: Food[] }) => {
   const dispatch = useAppDispatch();
   const [orders, setOrders] = useState<Food[]>([]);
   const { pathname } = useLocation();
+  console.log(orders);
 
   const handleUpdateOrder = (updatedFood: Food) => {
     setOrders((prevOrders) => {
@@ -33,7 +35,7 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
 
         return prevOrders.filter((order) => order._id !== updatedFood._id);
       }
-      const existingOrderIndex = prevOrders.findIndex((order) => order._id === updatedFood._id);
+      const existingOrderIndex = prevOrders.findIndex((order) => order._id === updatedFood._id && order.portion === updatedFood.portion);
 
       if (existingOrderIndex !== -1) {
         const updatedOrders = [...prevOrders];
@@ -43,6 +45,7 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
       return [...prevOrders, updatedFood];
     });
   };
+  console.log(orders);
 
   const handleSubmitOrders = () => {
     orders.forEach((order) => dispatch(addOrderToFoodState(order)));
@@ -63,7 +66,7 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
     <>
       <div className="getOrder__holder">
         {foods?.map((food) => (
-          <FoodBox food={food} key={food._id} onUpdateOrder={handleUpdateOrder} />
+          <FoodBox food={food} key={food._id} onUpdateOrder={handleUpdateOrder} foodAmount={food.amount} foodPortion={food.portion} />
         ))}
       </div>
 
@@ -84,7 +87,17 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
 
             <div className="getOrder__holder__buttons__button">
               <button className="totallOrederAll" onClick={pathname == "/menu" ? handleSubmitOrders : handleOrderFinish}>
-                {pathname == "/menu" ? <FaCheck /> : <IoCheckmarkDoneSharp />}
+                {pathname == "/menu" ? (
+                  <>
+                    <span>Order</span>
+                    <FaCheck />
+                  </>
+                ) : (
+                  <>
+                    <span>Print</span>
+                    <IoCheckmarkDoneSharp />
+                  </>
+                )}
               </button>
             </div>
           </div>

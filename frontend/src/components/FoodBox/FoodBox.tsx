@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./foodBox.scss";
 import { MdDeleteForever } from "react-icons/md";
 import { useLocation } from "react-router-dom";
@@ -8,6 +8,7 @@ import AddNewFoodEditForm from "../AddnewFoodEditForm/AddNewFoodEditForm";
 import axiosInstance from "../../utils/axiosInstance";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { selectedOrderedFoods } from "../../features/orderedFoodSlice";
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 interface Food {
   _id: string;
@@ -16,35 +17,50 @@ interface Food {
   desc: string;
   amount?: number;
   type: string;
+  portion: number;
 }
 
 interface FoodBoxProps {
   food: Food;
   onUpdateOrder: (food: Food) => void;
+  foodAmount: number | undefined;
+  foodPortion: number;
 }
-const FoodBox: React.FC<FoodBoxProps> = ({ food, onUpdateOrder }) => {
+const FoodBox: React.FC<FoodBoxProps> = ({ food, onUpdateOrder, foodAmount, foodPortion }) => {
+  console.log(foodAmount, foodPortion, "amoutportion");
+
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const orderedFoods = useAppSelector(selectedOrderedFoods) as Food[];
-  let orederFood = orderedFoods.find((item) => item._id == food._id);
-
-  const [amount, setFoodAmount] = useState<number>(orederFood?.amount ? orederFood.amount : 0);
   const [edit, setEdit] = useState<boolean>(false);
+  const [dropDownFoodBox, setDropDownFoodBox] = useState<boolean>(false);
+  const [selectedPortion, setSelectedPortion] = useState<number>(foodPortion || 1); // Default selected option
 
-  const handleFoodIncrement = () => {
-    setFoodAmount((prevAmount) => {
-      const newAmount = prevAmount + 1;
-      // Отложить обновление заказа до следующего рендера
-      requestAnimationFrame(() => onUpdateOrder({ ...food, amount: newAmount }));
-      //requestAnimationFrame указывает браузеру на то, что вы хотите произвести анимацию, и просит его запланировать перерисовку на следующем кадре анимации
-      return newAmount;
-    });
+  let orederFood = orderedFoods.find((item) => item._id == food._id && item.portion == selectedPortion);
+  const [amount, setFoodAmount] = useState<number>(foodAmount || 0);
+
+  useEffect(() => {
+    if (orederFood?.portion) {
+      setSelectedPortion(orederFood.portion);
+    }
+  }, [orederFood]);
+
+  useEffect(() => {
+    setFoodAmount(orederFood?.amount || 0);
+  }, [selectedPortion]);
+
+  const handleOptionChange = (event: number) => {
+    setSelectedPortion(() => {
+      requestAnimationFrame(() => onUpdateOrder({ ...food, portion: event }));
+      return event;
+    }); // Update selected portion
+    setDropDownFoodBox(false);
   };
 
-  const handleFoodDecrement = () => {
+  const handleFoodAmountChange = (delta: number) => {
     setFoodAmount((prevAmount) => {
-      const newAmount = Math.max(prevAmount - 1, 0);
-      requestAnimationFrame(() => onUpdateOrder({ ...food, amount: newAmount }));
+      const newAmount = Math.max(prevAmount + delta, 0);
+      requestAnimationFrame(() => onUpdateOrder({ ...food, amount: newAmount, portion: selectedPortion }));
       return newAmount;
     });
   };
@@ -99,14 +115,40 @@ const FoodBox: React.FC<FoodBoxProps> = ({ food, onUpdateOrder }) => {
             <p>{food.desc}</p>
           </div>
 
+          <div className="foodBox__dropDown">
+            <div
+              onClick={() => {
+                if (pathname !== "/getOrder") {
+                  setDropDownFoodBox(!dropDownFoodBox);
+                }
+              }}
+              className={`foodBox__dropDown__selected ${pathname !== "/getOrder" ? "cursor" : "noncursor"}`}>
+              <span>{selectedPortion}</span>
+
+              <RiArrowDropDownLine className={`${dropDownFoodBox ? "foodBox__dropDown__selected__open" : ""} foodBox__dropDown__selected__drop`} />
+            </div>
+            {dropDownFoodBox && (
+              <>
+                <div className="foodBox__dropDown__options">
+                  <span onClick={() => handleOptionChange(0.5)}>0.5</span>
+                  <span onClick={() => handleOptionChange(0.75)}>0.75</span>
+                  <span onClick={() => handleOptionChange(1)}>1</span>
+                  <span onClick={() => handleOptionChange(1.25)}>1.25</span>
+                </div>
+              </>
+            )}
+          </div>
+
           <div className="foodBox__buttons">
-            <strong>{food.price}</strong>
+            <strong>
+              {selectedPortion * Number(food.price)} <span>x1</span>
+            </strong>
             <div className="counter amount">
-              <button className="decrement" onClick={handleFoodDecrement}>
+              <button className="decrement" onClick={() => handleFoodAmountChange(-1)}>
                 -
               </button>
               <span className="number">{amount}</span>
-              <button className="increment" onClick={handleFoodIncrement}>
+              <button className="increment" onClick={() => handleFoodAmountChange(1)}>
                 +
               </button>
             </div>

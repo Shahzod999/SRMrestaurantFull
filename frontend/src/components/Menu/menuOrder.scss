@@ -14,7 +14,7 @@
 
   &__buttons {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: flex-end;
     margin-top: 50px;
     flex-wrap: wrap-reverse;
     gap: 50px;
@@ -34,14 +34,25 @@
         display: none;
       }
       .totallOrederAll {
+        display: flex;
+        gap: 10px;
+        align-items: center;
         border: none;
-        width: 200px;
-        height: 200px;
+        // width: 200px;
+        height: 80px;
+        padding: 25px;
         background-color: teal;
         // border-radius: 10px;
         font-size: 25px;
         border-radius: 25px;
         transition: 0.1s ease-in-out;
+        color: white;
+
+        span {
+          border-right: 0.5px solid white;
+          padding: 0 20px;
+          transition: 0.2s ease-in-out;
+        }
 
         svg {
           width: 100%;
@@ -51,6 +62,9 @@
         }
         &:hover,
         &:active {
+          span {
+            padding-right: 30px;
+          }
           transform: scale(1.05);
         }
       }

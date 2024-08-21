@@ -26,7 +26,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ tablePlace, options, ha
   return (
     <div className="dropdown">
       <div className="dropdown-header" onClick={toggleDropdown}>
-        {tablePlace.table || "Select an option"}
+        {tablePlace.table || <span>Select an option</span>}
       </div>
       {isOpen && (
         <ul className="dropdown-list">

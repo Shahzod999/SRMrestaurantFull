@@ -27,8 +27,6 @@ interface FoodBoxProps {
   foodPortion: number;
 }
 const FoodBox: React.FC<FoodBoxProps> = ({ food, onUpdateOrder, foodAmount, foodPortion }) => {
-  console.log(foodAmount, foodPortion, "amoutportion");
-
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const orderedFoods = useAppSelector(selectedOrderedFoods) as Food[];

@@ -5,12 +5,18 @@
   font-weight: 900;
 
   .dropdown-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: black;
     padding: 10px;
     border-radius: 10px;
     color: white;
     cursor: pointer;
     user-select: none;
+    span {
+      font-size: 12px;
+    }
   }
 
   .dropdown-list {

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from "../store/store";
 // import axios from "axios";
 import axiosInstance from '../utils/axiosInstance';
+import toast from "react-hot-toast";
 
 // /get-all-foods/:type
 export const fetchAllFoods = createAsyncThunk(
@@ -9,7 +10,11 @@ export const fetchAllFoods = createAsyncThunk(
   async (_, { getState }) => {
     const state = getState() as RootState;
     const type = state.allFoods.type;
-    const response = await axiosInstance.get(`${import.meta.env.VITE_BASE_URL}/get-all-foods/${type}`)
+    const response = await toast.promise(axiosInstance.get(`${import.meta.env.VITE_BASE_URL}/get-all-foods/${type}`), {
+      loading: 'Loading food...',
+      success: 'Food loaded successfully!',
+      error: 'Failed to load foods.'
+    })
     return response.data
   }
 )

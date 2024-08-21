@@ -1,70 +1,46 @@
+import { selectedWaitingCards } from "../../features/orderedFoodSlice";
+import { useAppSelector } from "../../hooks/hooks";
 import "./orderedFoodMainLine.scss";
 import { useState } from "react";
+import { MdKeyboardArrowLeft } from "react-icons/md";
+import { MdKeyboardArrowRight } from "react-icons/md";
+
+interface OrderedFood {
+  _id: string;
+  name: string;
+  price: string;
+  desc: string;
+  type: string;
+  userId: string;
+  createdOn: string;
+  __v: number;
+  amount: number;
+  portion: number;
+}
+
+interface TablePlace {
+  place: string;
+  table: number;
+}
+
+interface WaitingCard {
+  orderNumber: number;
+  foods: OrderedFood[];
+  table: TablePlace;
+  orderTime: string;
+}
 
 const OrderedFoodMainLine = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-
-  const orderedFoodMainLines = [
-    {
-      order: {
-        number: "#A0001",
-        table: "Table 01",
-      },
-      item: {
-        quantity: 8,
-      },
-      status: {
-        timeAgo: "2 mins ago",
-        position: "In kitchen",
-      },
-    },
-    {
-      order: {
-        number: "#A0002",
-        table: "Table 05",
-      },
-      item: {
-        quantity: 3,
-      },
-      status: {
-        timeAgo: "5 mins ago",
-        position: "Preparing",
-      },
-    },
-    {
-      order: {
-        number: "#A0003",
-        table: "Table 02",
-      },
-      item: {
-        quantity: 6,
-      },
-      status: {
-        timeAgo: "10 mins ago",
-        position: "Served",
-      },
-    },
-    {
-      order: {
-        number: "#A0004",
-        table: "Table 07",
-      },
-      item: {
-        quantity: 1,
-      },
-      status: {
-        timeAgo: "Just now",
-        position: "In kitchen",
-      },
-    },
-  ];
+  const waitingCards: WaitingCard[] = useAppSelector(selectedWaitingCards);
+  console.log(waitingCards, "waiting");
 
   const handleNextClick = () => {
-    setActiveIndex((prevIndex) => (prevIndex === orderedFoodMainLines.length - 1 ? 0 : prevIndex + 1));
+    setActiveIndex((prevIndex) => (prevIndex === waitingCards.length - 1 ? 0 : prevIndex + 1));
   };
 
   const handlePrevClick = () => {
-    setActiveIndex((prevIndex) => (prevIndex === 0 ? orderedFoodMainLines.length - 1 : prevIndex - 1));
+    setActiveIndex((prevIndex) => (prevIndex === 0 ? waitingCards.length - 1 : prevIndex - 1));
   };
 
   return (
@@ -82,7 +58,7 @@ const OrderedFoodMainLine = () => {
       </div>
       <div className="wiper">
         <button className="wiper-button wiper-button__right" onClick={handlePrevClick}>
-          <img src="https://www.iconpacks.net/icons/2/free-arrow-left-icon-3099-thumb.png" alt="left" />
+          <MdKeyboardArrowLeft size={50} />
         </button>
 
         <div className="wiper-wrapper">
@@ -91,28 +67,39 @@ const OrderedFoodMainLine = () => {
             style={{
               transform: `translateX(-${(200 + 24) * activeIndex}px)`,
             }}>
-            {orderedFoodMainLines.map((order, index) => (
-              <li key={index} className={`wiper-item ${index === activeIndex ? "active-swipe" : ""}`}>
-                <div className="orderedFoodMainLine__box">
-                  <div>
-                    <span>Order: {order.order.number}</span>
-                    <span>{order.order.table}</span>
-                  </div>
+            {waitingCards.map((order, index) => {
+              const dateTimeString = order.orderTime;
+              const date = new Date(dateTimeString);
+              const hours = date.getUTCHours().toString().padStart(2, "0");
+              const minutes = date.getUTCMinutes().toString().padStart(2, "0");
 
-                  <strong>Item: {order.item.quantity}x</strong>
+              const time = `${hours}:${minutes}`;
 
-                  <div>
-                    <span>{order.status.timeAgo}</span>
-                    <span className="position">{order.status.position}</span>
+              return (
+                <li key={index} className={`wiper-item ${index === activeIndex ? "active-swipe" : ""}`}>
+                  <div className="orderedFoodMainLine__box">
+                    <div>
+                      <span>Order: {order.orderNumber}</span>
+                      <span>
+                        {order.table.place || "N/A"} - {order.table.table || "N/A"}
+                      </span>
+                    </div>
+
+                    <strong>Item: {order.foods.reduce((acc, food) => acc + food.amount, 0)}x</strong>
+
+                    <div>
+                      <span>{time}</span>
+                      <span className="position">In kitchen</span>
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         </div>
 
         <button className="wiper-button wiper-button__left" onClick={handleNextClick}>
-          <img src="https://www.iconpacks.net/icons/2/free-arrow-left-icon-3099-thumb.png" alt="right" />
+          <MdKeyboardArrowRight size={50} />
         </button>
       </div>
     </>

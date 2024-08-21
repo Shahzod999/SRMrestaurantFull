@@ -1,8 +1,8 @@
 import FoodBox from "../FoodBox/FoodBox";
 import { useState } from "react";
 import "./menuOrder.scss";
-import { useAppDispatch } from "../../hooks/hooks";
-import { addOrderToFoodState, removeFoodfromOrder, removeOrderFoodList } from "../../features/orderedFoodSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { addOrderToFoodState, removeFoodfromOrder, removeOrderFoodList, selectedGuestTable } from "../../features/orderedFoodSlice";
 import { useLocation } from "react-router-dom";
 import GuestTable from "./GuestTable";
 import toast from "react-hot-toast";
@@ -24,7 +24,7 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
   const dispatch = useAppDispatch();
   const [orders, setOrders] = useState<Food[]>([]);
   const { pathname } = useLocation();
-  console.log(orders);
+  const table = useAppSelector(selectedGuestTable);
 
   const handleUpdateOrder = (updatedFood: Food) => {
     setOrders((prevOrders) => {
@@ -45,9 +45,14 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
       return [...prevOrders, updatedFood];
     });
   };
-  console.log(orders);
 
   const handleSubmitOrders = () => {
+    if (!table) {
+      return toast.error("Table", {
+        position: "bottom-center",
+      });
+    }
+
     orders.forEach((order) => dispatch(addOrderToFoodState(order)));
   };
 
@@ -65,15 +70,14 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
   return (
     <>
       <div className="getOrder__holder">
-        {foods?.map((food) => (
-          <FoodBox food={food} key={food._id} onUpdateOrder={handleUpdateOrder} foodAmount={food.amount} foodPortion={food.portion} />
+        {foods?.map((food, index) => (
+          <FoodBox food={food} key={food._id + index} onUpdateOrder={handleUpdateOrder} foodAmount={food.amount} foodPortion={food.portion} />
         ))}
       </div>
 
       {pathname !== "/edit" && (
         <>
           <GuestTable />
-
           <div className="getOrder__holder__buttons">
             {pathname == "/getOrder" && (
               <>
@@ -86,19 +90,23 @@ const MenuOrder = ({ foods }: { foods: Food[] }) => {
             )}
 
             <div className="getOrder__holder__buttons__button">
-              <button className="totallOrederAll" onClick={pathname == "/menu" ? handleSubmitOrders : handleOrderFinish}>
-                {pathname == "/menu" ? (
-                  <>
+              {pathname == "/menu" ? (
+                <>
+                  <button className="totallOrederAll" onClick={handleSubmitOrders}>
                     <span>Order</span>
                     <FaCheck />
-                  </>
-                ) : (
-                  <>
-                    <span>Print</span>
-                    <IoCheckmarkDoneSharp />
-                  </>
-                )}
-              </button>
+                  </button>
+                </>
+              ) : (
+                <>
+                  {foods.length > 0 && (
+                    <button className="totallOrederAll" onClick={handleOrderFinish}>
+                      <span>Print</span>
+                      <IoCheckmarkDoneSharp />
+                    </button>
+                  )}
+                </>
+              )}
             </div>
           </div>
         </>

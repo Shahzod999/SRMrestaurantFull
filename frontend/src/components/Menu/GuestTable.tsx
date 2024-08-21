@@ -24,7 +24,7 @@ const GuestTable: React.FC = () => {
   const [tablePlace, setTablePlace] = useState<TablePlace>(
     choosenTable || {
       place: "Center",
-      table: options["Center"][0],
+      table: 0,
     }
   );
 

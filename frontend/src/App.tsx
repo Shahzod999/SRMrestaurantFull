@@ -11,6 +11,7 @@ import FoodTypes from "./components/FoodTypes/FoodTypes";
 import { fetchUser, selectedLoadingToken, selectedUserGetUser, selectedUserToken } from "./features/userLoginSlice";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import Loading from "./components/Loading/Loading";
+import Kitchen from "./pages/Kitchen/Kitchen";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -44,6 +45,7 @@ const App = () => {
               <Route path="/menu/fastfood" element={<FoodTypes typeFood={"ФастФуд"} />} />
               <Route path="/menu/drinks" element={<FoodTypes typeFood={"Напитки"} />} />
               <Route path="/getOrder" element={<GetOrder />} />
+              <Route path="/kitchen" element={<Kitchen />} />
               <Route path="*" element={<Error />} />
             </>
           ) : (

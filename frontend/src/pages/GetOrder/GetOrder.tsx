@@ -15,9 +15,6 @@ interface Food {
 
 const GetOrder = () => {
   const orderedFoods = useAppSelector(selectedOrderedFoods) as Food[];
-  console.log(orderedFoods, "777");
-
-  //тут мы
 
   return (
     <div className="container getOrder">

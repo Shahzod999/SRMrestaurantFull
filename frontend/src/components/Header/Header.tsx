@@ -34,6 +34,9 @@ const Header: React.FC<HeaderProps> = ({ userToken, userInfo }) => {
 
           <ul>
             <li>
+              <Link to="/kitchen">Кухня</Link>
+            </li>
+            <li>
               <Link to="/menu">Меню</Link>
             </li>
             <li>

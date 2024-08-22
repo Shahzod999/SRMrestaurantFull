@@ -3,24 +3,6 @@ import { RootState } from "../store/store";
 import toast from "react-hot-toast";
 
 
-interface Table {
-  place: string;
-  table: number;
-}
-
-
-// interface OrderedFood {
-//   _id: string;
-//   name: string;
-//   price: number;
-//   type: string;
-//   amount: number;
-//   portion: string;
-//   table?: Table;// Делаем необязательным, если не всегда присутствует
-//   orderTime?: string; // Делаем необязательным
-// }
-
-
 export interface OrderedFood {
   _id: string;
   amount: number;
@@ -38,7 +20,8 @@ export interface OrderedFoodState {
 
 
   orderNumber: number;
-  orderedWaitingCards: any
+  orderedWaitingCards: any;
+  ///поправить
 }
 
 const initialState: OrderedFoodState = {
@@ -71,7 +54,7 @@ export const orderedFoodSlice = createSlice({
       localStorage.setItem("order", JSON.stringify(state.orderedFoods))
 
       toast('Barakallah!', {
-        icon: '👏',
+        icon: '👨‍🍳',
       });
     },
     removeFoodfromOrder: (state, action) => {
@@ -90,10 +73,9 @@ export const orderedFoodSlice = createSlice({
       });
     },
     removeOrderFoodList: (state) => {
-
-
       if (state.orderedFoods.length > 0) {
-        state.orderNumber++;
+        state.orderNumber += state.orderedWaitingCards.length;
+
         // Группируем заказы из orderedFoods и добавляем информацию о выбранном столе
         const groupedFoods = state.orderedFoods.reduce((acc: Record<string, OrderedFood[]>, food) => {
           const key = food.type;
@@ -117,7 +99,6 @@ export const orderedFoodSlice = createSlice({
         localStorage.setItem("totalCheck", JSON.stringify(state.totalCheck));
         //Группируем end
 
-
         // Add to orderedWaitingCards with the incremented order number
         state.orderedWaitingCards.push({
           orderNumber: state.orderNumber,
@@ -127,13 +108,6 @@ export const orderedFoodSlice = createSlice({
         });
         localStorage.setItem("orderedWaitingCards", JSON.stringify(state.orderedWaitingCards)); // Save to local storage
       }
-
-
-
-
-
-
-
 
       state.choosenTable = null;
       state.orderedFoods = [];
@@ -157,6 +131,20 @@ export const orderedFoodSlice = createSlice({
       toast('Table!', {
         icon: '🍴',
       });
+    },
+    totalRemoveWorkingDay: (state) => {
+      state.orderedFoods = [];
+      state.totalCheck = {}
+      state.choosenTable = null;
+      state.orderedWaitingCards = [];
+      localStorage.removeItem("order");
+      localStorage.removeItem("totalCheck")
+      localStorage.removeItem("choosenTable")
+      localStorage.removeItem("orderedWaitingCards")
+      toast('Сегодня вы были замечательны!💖', {
+        icon: '🙌🏻',
+        position: "top-center",
+      });
     }
   }
 })
@@ -167,5 +155,5 @@ export const selectedGuestTable = (state: RootState) => state.orderedFoods.choos
 
 export const selectedWaitingCards = (state: RootState) => state.orderedFoods.orderedWaitingCards
 
-export const { addOrderToFoodState, removeFoodfromOrder, removeOrderFoodList, tableChoose } = orderedFoodSlice.actions
+export const { addOrderToFoodState, removeFoodfromOrder, removeOrderFoodList, tableChoose, totalRemoveWorkingDay } = orderedFoodSlice.actions
 export default orderedFoodSlice.reducer

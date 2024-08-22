@@ -96,10 +96,8 @@
 }
 
 .wiper-track {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  column-gap: 1.5rem;
-  margin: 0 auto;
+  display: flex;
+  gap: 1.5rem;
   transition: transform 0.4s ease-in;
   padding: 0 1rem;
 }
@@ -187,4 +185,36 @@
 
 .is-hidden {
   display: none;
+}
+
+.finishWorkModal {
+  transition: 0.5s ease-in-out;
+  transform: scale(1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  backdrop-filter: blur(10px);
+
+  &__box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 35px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    .dangerAlert {
+      fill: red;
+      font-size: 100px;
+    }
+    button {
+    }
+  }
 }

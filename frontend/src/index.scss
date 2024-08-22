@@ -24,3 +24,18 @@ li {
   min-height: 100vh;
   background-color: rgb(243, 243, 243);
 }
+.dangerButton {
+  background-color: #dc3545 !important;
+  border: none !important;
+  padding: 10px 15px;
+  color: white !important;
+  font-weight: 600 !important;
+
+  &:hover {
+    background-color: #bb2d3b !important;
+    border-color: #b02a37 !important;
+  }
+  &:active {
+    transform: scale(0.95) !important;
+  }
+}

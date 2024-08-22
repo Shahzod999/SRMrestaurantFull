@@ -1,9 +1,10 @@
-import { selectedWaitingCards } from "../../features/orderedFoodSlice";
-import { useAppSelector } from "../../hooks/hooks";
+import { selectedWaitingCards, totalRemoveWorkingDay } from "../../features/orderedFoodSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import "./orderedFoodMainLine.scss";
 import { useState } from "react";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { IoIosAlert } from "react-icons/io";
 
 interface OrderedFood {
   _id: string;
@@ -31,9 +32,10 @@ interface WaitingCard {
 }
 
 const OrderedFoodMainLine = () => {
+  const dispatch = useAppDispatch();
+  const [modalActive, setModalActive] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const waitingCards: WaitingCard[] = useAppSelector(selectedWaitingCards);
-  console.log(waitingCards, "waiting");
 
   const handleNextClick = () => {
     setActiveIndex((prevIndex) => (prevIndex === waitingCards.length - 1 ? 0 : prevIndex + 1));
@@ -43,8 +45,28 @@ const OrderedFoodMainLine = () => {
     setActiveIndex((prevIndex) => (prevIndex === 0 ? waitingCards.length - 1 : prevIndex - 1));
   };
 
+  const handleDangerFinishWorkButton = () => {
+    setModalActive(!modalActive);
+  };
+
+  const totalFinishWork = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    dispatch(totalRemoveWorkingDay());
+  };
   return (
     <>
+      {modalActive && (
+        <div className="finishWorkModal" onClick={handleDangerFinishWorkButton}>
+          <div className="finishWorkModal__box">
+            <IoIosAlert className="dangerAlert" />
+            <p>это удалит все данные рабочего дня</p>
+            <button className="dangerButton" onClick={totalFinishWork}>
+              Delete
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="orderedFoodMainTotal">
         <span>
           All <strong>99+</strong>
@@ -54,6 +76,9 @@ const OrderedFoodMainLine = () => {
         </span>
         <span>
           Finish <strong>99+</strong>
+        </span>
+        <span className="dangerButton" onClick={handleDangerFinishWorkButton}>
+          Clear
         </span>
       </div>
       <div className="wiper">

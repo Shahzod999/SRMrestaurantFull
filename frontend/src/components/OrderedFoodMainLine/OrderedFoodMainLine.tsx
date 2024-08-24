@@ -36,6 +36,7 @@ const OrderedFoodMainLine = () => {
   const [modalActive, setModalActive] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const waitingCards: WaitingCard[] = useAppSelector(selectedWaitingCards);
+  let allCounts = waitingCards.length;
 
   const handleNextClick = () => {
     setActiveIndex((prevIndex) => (prevIndex === waitingCards.length - 1 ? 0 : prevIndex + 1));
@@ -69,13 +70,13 @@ const OrderedFoodMainLine = () => {
 
       <div className="orderedFoodMainTotal">
         <span>
-          All <strong>99+</strong>
+          All <strong>{allCounts}</strong>
         </span>
         <span>
-          Wait list <strong>99+</strong>
+          Wait list <strong>{allCounts}</strong>
         </span>
         <span>
-          Finish <strong>99+</strong>
+          Finish <strong>{allCounts}</strong>
         </span>
         <span className="dangerButton" onClick={handleDangerFinishWorkButton}>
           Clear
